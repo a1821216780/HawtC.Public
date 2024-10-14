@@ -1,5 +1,5 @@
 ![Alt](./HawtC.png)
-# 关于OpenHAST 的相关介绍
+# 关于HawtC 的相关介绍
  OpenHAST.MBD 具有可以拓展,自由组合的优势,是下一代风力机仿真软件的标杆,由赵子祯博士首次提出了部件装配的构建方法,可以自定义的轻松实现多风轮涡轮机以及求解多体动力学行为,例如单个塔筒的涡激震动,按个叶片的震动等,目前任然在开发和实现当中.目标是替代Openfast,成为世界首屈一指的开源国产风力机设计软件的标杆!.
  OpenHAST.HawtC offers the advantages of extensibility and flexible combinations, making it a benchmark for next-generation wind turbine simulation software. Dr. Zhao Zizhen first proposed the component assembly construction method, allowing for easy customization to achieve multi-rotor turbines and solve multi-body dynamic behaviors, such as vortex-induced vibrations of a single tower and vibrations of individual blades. It is currently still in development and implementation. The goal is to replace OpenFAST and become the leading open-source domestic wind turbine design software in the world!
 # 0 开发计划安排
