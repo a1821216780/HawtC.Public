@@ -3,27 +3,34 @@
  OpenHAST.MBD 具有可以拓展,自由组合的优势,是下一代风力机仿真软件的标杆,由赵子祯博士首次提出了部件装配的构建方法,可以自定义的轻松实现多风轮涡轮机以及求解多体动力学行为,例如单个塔筒的涡激震动,按个叶片的震动等,目前任然在开发和实现当中.目标是替代Openfast,成为世界首屈一指的开源国产风力机设计软件的标杆!.
  OpenHAST.HawtC offers the advantages of extensibility and flexible combinations, making it a benchmark for next-generation wind turbine simulation software. Dr. Zhao Zizhen first proposed the component assembly construction method, allowing for easy customization to achieve multi-rotor turbines and solve multi-body dynamic behaviors, such as vortex-induced vibrations of a single tower and vibrations of individual blades. It is currently still in development and implementation. The goal is to replace OpenFAST and become the leading open-source domestic wind turbine design software in the world!
 # 0 开发计划安排
+
 ## 0.0 2024年软件模块安排
 
 ### 0.0.0 模块重构
 - <span style="color: green;">&#10004;</span> 初步完成任务 最基本的模块重构,将不含调用类关键字的方法重构为static 将其他方法重构为非static 方法,这样,将会为Hast.Foram的多线程和Hast.MoptL提供内存安全机制,防止计算错误.主要是内存隔离盒安全机制.大幅提高计算效率,现在的计算效率是Bladed的6倍以上,达到了Fast 80% 的计算效率,主要受限于C#的托管内存机制,尽管长度有损耗,但内存管理更加安全,不会内存泄漏!
+
 ### 0.0.1 AeroL
 - <span style="color: red;">&#10060;</span> 未完成任务 FVW 模块
 - <span style="color: red;">&#10060;</span> 未完成任务 接入更多的动态失速模型
+
 ### 0.0.2 ApiL
-- <span style="color: red;">&#10060;</span> 未完成任务 进一步开发 api 只是一个大工程,用到什么,开发什么
+- <span style="color: green;">&#10004;</span>  以完成任务，实现了更加高级的API功能
+
 ### 0.0.3 BeamL
 - <span style="color: green;">&#10004;</span> 已完成任务 开发动态几何精确梁
 - <span style="color: green;">&#10004;</span> 已完成任务 植入静态共旋梁方法
 - <span style="color: green;">&#10004;</span> 已完成任务  开发动态共旋梁模型,耦合工作正在进行
 - <span style="color: red;">&#10060;</span> 未完成任务  向 MBD 模块当中耦合
+
 ### 0.0.4 PostL
 - <span style="color: red;">&#10060;</span> 未完成任务  支持将计算结果直接写入到Excle文件当中,处理极限载荷
 - <span style="color: red;">&#10060;</span> 未完成任务  支持将计算结果直接写入到Excle文件当中,处理疲劳载荷
+
 ### 0.0.4 MBD
 - <span style="color: red;">&#10060;</span> 未完成任务  逐步支持双机头风机建模
-- <span style="color: red;">&#10060;</span> 未完成任务  优化塔架和叶片TMDI 模型
+- <span style="color: green;">&#10004;</span>  以完成任务  优化塔架和叶片TMDI 模型
 - <span style="color: red;">&#10060;</span> 未完成任务  增加TMDI接口,为后期的TLD等其他被动减振方法提供开发接口
+
 ### 0.0.5 SubFEML
 - <span style="color: red;">&#10060;</span> 未完成任务  支持地震波的导入,支持更多的基础模型(这个非常简单)
 
@@ -34,17 +41,17 @@
 
 ## 与OpenFAST的对比优势与缺点
 ### 优点：
-###### 1、叶片动力学采用了共旋非线性方法和线性化的模态分析方法，提高更加高效的非线性计算
-###### 2、MBD统一采用了Kanes方法，支持双机头等自定义模型的分析（只有接口，没有时间实现)
-###### 3、更加广泛的文件输出接口，开发包提供了tool自定义输出工具，支持用户自定义输出。采用了与bladed类似的输入和输出文件系统，方便管理
-###### 4、采用了商业软件的模型集成技术，模型采用yaml编码和fast的分布式两种代码，有效解决了模型混乱
-###### 5、支持整机的一体化优化设计，模型当中的任意参数都可以作为优化目标，支持多线程技术，无需代码，即可完成优化设计（我的视频里面以叶片TMDI作为案例）
-###### 6、支持叶片、塔架陀螺TMDI减振动力学建模 。
-###### 7、提供外部接口，方便代码植入。（目前我准备提供aqwa接口和aerodyn接口，以弥补缺点)。其他基本差不多。
+- <span style="color: green;">&#10004;</span> 1、叶片动力学采用了共旋非线性方法和线性化的模态分析方法，提高更加高效的非线性计算
+- <span style="color: green;">&#10004;</span>  2、MBD统一采用了Kanes方法，支持双机头等自定义模型的分析（只有接口，没有时间实现)
+- <span style="color: green;">&#10004;</span>  3、更加广泛的文件输出接口，开发包提供了tool自定义输出工具，支持用户自定义输出。采用了与bladed类似的输入和输出文件系统，方便管理
+- <span style="color: green;">&#10004;</span>  4、采用了商业软件的模型集成技术，模型采用yaml编码和fast的分布式两种代码，有效解决了模型混乱
+- <span style="color: green;">&#10004;</span>  5、支持整机的一体化优化设计，模型当中的任意参数都可以作为优化目标，支持多线程技术，无需代码，即可完成优化设计（我的视频里面以叶片TMDI作为案例）
+- <span style="color: green;">&#10004;</span>  6、支持叶片、塔架陀螺TMDI减振动力学建模 。
+- <span style="color: green;">&#10004;</span>  7、提供外部接口，方便代码植入。（目前我准备提供aqwa接口和aerodyn接口，以弥补缺点)。其他基本差不多。
 ### 缺点：
-###### 1、计算速度没有FAST快，bachmark看了一下，大约是FAST的60% 。
-###### 2、水动力计算功能匮乏（我不是搞水动力的）
-###### 3、气动力计算还有待改进（只支持BEMT,FVM等待有缘人协助）。
+- <span style="color: red;">&#10060;</span> 1、计算速度没有FAST快，bachmark看了一下，大约是FAST的60% 。
+- <span style="color: red;">&#10060;</span> 2、水动力计算功能匮乏（我不是搞水动力的）
+- <span style="color: red;">&#10060;</span> 3、气动力计算还有待改进（只支持BEMT,FVM等待有缘人协助）。
 ### 开发的原因与心得：
 作为一个起步阶段的“作品”，还是有很大的改进空间，开发初衷是因为FAST二次开发，对于某些功能来说太困难了，不是面向对象的程序理解困难，FAST的fortran的语言开发调试速度慢，采用现代化的语言，开发速度显著增加。基于这些客观条件我就做了一些工作。只是对这方面感兴趣，玩的。和人家团队相比还是逊色不少，有待群里面的各位专家批评改进。如果不是必须去实现HawtC当中的特定功能，建议采用OpenFAST。该程序作为博士期间的成果，该网站和程序是这一阶段的记录点，等到几十年后，我可以以此回忆青年的时光。
 
@@ -164,11 +171,9 @@ http://www.openwecd.fun/data/湍流Compare.ipynb
 ###### 1、修复了 MBD 当中的错误,现在的计算结果与openfast基本一致，但还在优化当中
 ###### 2、AeroL 支持了塔架和轮毂气动力计算及其气动力输出
 
-###### 3、<p style="color: red;">版本2.2.011 及其之后支持</p> 
-BeamL 支持了二维梁的共旋静态和动态非线性计算，以及3D的静态和动态（暂时不开放）非线性计算
+###### 3、BeamL 支持了二维梁的共旋静态和动态非线性计算，以及3D的静态和动态（暂时不开放）非线性计算
 
-###### 4、<p style="color: red;">版本2.2.010 及其之后支持</p> 
-IO 支持了计算完毕或者报错后向您指定邮箱发送通知邮件的功能，需要在HST主文件当中设置，请参阅文件改动
+###### 4、版本2.2.010 及其之后支持IO 支持了计算完毕或者报错后向您指定邮箱发送通知邮件的功能，需要在HST主文件当中设置，请参阅文件改动
 
 ###### 5、QHAST2 在1.0版本之后已经支持了模态法下的叶片TMDI模拟，版本2.4.000 及其之后支持梁动力学与直接法下的叶片TMDI高精度计算
 
@@ -280,7 +285,6 @@ false                            AfEmail                 - 是否开启Email
 ## HawtC.AeroL气动力模型下载，支持Cp,功率曲线等计算：
 
 请参考风力机模型
-
 
 
 
