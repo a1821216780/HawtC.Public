@@ -159,13 +159,13 @@ http://www.openwecd.fun/index.php/%e4%b8%8b%e8%bd%bd-openwecd-numerrics/
 
 ## HawtC 风力机模型下载：
 
-| 风力机模型  | 类型  | 下载地址  |
-| :------------: | :------------: | :------------: |
-| 5MW  | Spar 漂浮式  | 请访问论坛  |
-| 5MW  |  Onshore 陆上 | 请访问论坛  |
-| 15MW  | Onshore 陆上  | 请访问论坛  |
-| 22MW  |  Onshore 陆上 | http://www.openwecd.fun/model/HawtC_IEA_22MW_onshore.rar  |
-| 22MW整机一体化下的叶片TMDI优化  |  Onshore 陆上 | http://www.openwecd.fun/model/HawtC_IEA_22MW_onshore_BladeTMDI_opt.rar  |
+| 风力机模型  | 类型  | （HawtC）下载地址  |（HawtC2）下载地址  |
+| :------------: | :------------: | :------------: | :------------: |
+| 5MW  | Spar 漂浮式  | 请访问论坛  | 请访问论坛  |
+| 5MW  |  Onshore 陆上 | 请访问论坛  | 请访问论坛  |
+| 15MW  | Onshore 陆上  | 请访问论坛  | 请访问论坛  |
+| 22MW  |  Onshore 陆上 | http://www.openwecd.fun/model/HawtC_IEA_22MW_onshore.rar  | 请访问论坛  |
+| 22MW整机一体化下的叶片TMDI优化  |  Onshore 陆上 | http://www.openwecd.fun/model/HawtC_IEA_22MW_onshore_BladeTMDI_opt.rar  | 请访问论坛  |
 
 ## HawtC 与 OpenFAST 计算验证对比
 ### 1. 15MW 稳态无风剪切
