@@ -1,6 +1,7 @@
 ![Alt](./HawtC.png)
 # 关于HawtC 的相关介绍
 该软件提供了一个基于C#编译的仿真工具，用于使用凯恩方法分析Spar型浮动海上风力涡轮机的动力学。该模型是使用 5 MW OC3 HyWind Spar 型 FOWT 建立的。然而，这些代码是通用的，适用于不同额定值的风力涡轮机。该程序的输入支持OpenFAST的分布式文件和商业软件Bladed的文件结构，支持全局多目标优化，支持叶片、塔架TMDI设计优化仿真，支持非线性叶片动力学
+
 The software provides a C #compiled simulation tool for analyzing the dynamics of a Spar-type floating offshore wind turbine using the Kane method. The model was built using a 5 MW OC3 HyWind Spar-type FOWT. However, the codes are generic and applicable to wind turbines of different ratings. The input to the program supports OpenFAST's distributed files and the file structure of the commercial software Bladed, supports global multi-objective optimization, supports blade, tower TMDI design optimization simulation, supports nonlinear blade dynamics
 # 0 开发计划安排
 
