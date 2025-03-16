@@ -1,0 +1,59 @@
+------- MBD V2.00.* HawtC2.MBD AMM 结构输入文件 --------------------------
+NREL 15.0 MW offshore baseline blade input properties.
+---------------------- 结构参数 (StrPar) ----------------------------------------
+11          NBlInpSt    -  输入的节点的数量
+1           BodyType    -  当前体模型类型 {0-叶片，1-塔架，2-FEM}
+0		    BEAMTYPE    -  梁模型 {0-模态叠加法AMM(自定义模态); 1-模态叠加法TIMOSHENKO_AMM(程序计算模态); 2-TIMOSHENKO全耦合线性方法;3-TIMOSHENKO全耦合线性方法共旋梁方法(CR)；4-全耦合几何精确梁方法(GEBT)}
+0.0172	    RAYLEIGHDMP -  瑞丽阻尼参数(BEAMTYPE=2,3)
+1        FlDmp(1)    - 一阶前后结构阻尼参数%，可在叶片设计手册中查找(BEAMTYPE=0,1)
+1        FlDmp(2)    - 二阶前后结构阻尼参数%，可在叶片设计手册中查找(BEAMTYPE=0,1)
+1        EdDmp(1)    - 一阶左右结构阻尼参数%，可在叶片设计手册中查找(BEAMTYPE=0,1)
+1        EdDmp(2)    - 二阶左右结构阻尼参数%，可在叶片设计手册中查找(BEAMTYPE=0,1)
+
+---------------------- 结构调整系数 (Adjust factor) --------------------------------
+1.0         AdjBlMs     - 调整质量密度系数(-)
+1.0         AdjFlSt     - 调整挥舞刚度系数(-)
+1.0         AdjEdSt     - 调整摆振刚度系数(-)
+
+---------------------- 截面参数 ( Section Par ) ----------------------------
+Span	TwrDiam	TwrCd	MASSD		EIx			EIy
+m		(m)		(-)		(kg/m)		(Nm^2)		(Nm^2)
+0	6.5	1	4667	6.03903E+11	6.03903E+11
+7.76	6.24	1	4345.28	5.17644E+11	5.17644E+11
+15.52	5.97	1	4034.76	4.40925E+11	4.40925E+11
+23.28	5.71	1	3735.44	3.73022E+11	3.73022E+11
+31.04	5.45	1	3447.32	3.13236E+11	3.13236E+11
+38.8	5.18	1	3170.4	2.60897E+11	2.60897E+11
+46.56	4.92	1	2904.69	2.15365E+11	2.15365E+11
+54.32	4.66	1	2650.18	1.76028E+11	1.76028E+11
+62.08	4.4	1	2406.88	1.42301E+11	1.42301E+11
+69.84	4.13	1	2174.77	1.1363E+11	1.1363E+11
+77.6	3.87	1	1953.87	89488000000	89488000000
+
+
+
+ 
+----------------------  模态形状 (Modal Shape) ---------------------------------------
+     0.8689   TwFAM1Sh(2) - Mode 1, coefficient of x^2 term
+     0.2205   TwFAM1Sh(3) -       , coefficient of x^3 term
+    -0.0908   TwFAM1Sh(4) -       , coefficient of x^4 term
+     0.1167   TwFAM1Sh(5) -       , coefficient of x^5 term
+    -0.1154   TwFAM1Sh(6) -       , coefficient of x^6 term
+    42.5859   TwFAM2Sh(2) - Mode 2, coefficient of x^2 term
+   -18.6419   TwFAM2Sh(3) -       , coefficient of x^3 term
+    -20.357   TwFAM2Sh(4) -       , coefficient of x^4 term
+   -23.2686   TwFAM2Sh(5) -       , coefficient of x^5 term
+    20.6816   TwFAM2Sh(6) -       , coefficient of x^6 term
+---------------------- TOWER SIDE-TO-SIDE MODE SHAPES --------------------------
+      0.834   TwSSM1Sh(2) - Mode 1, coefficient of x^2 term
+     0.2216   TwSSM1Sh(3) -       , coefficient of x^3 term
+    -0.0571   TwSSM1Sh(4) -       , coefficient of x^4 term
+     0.0934   TwSSM1Sh(5) -       , coefficient of x^5 term
+    -0.0918   TwSSM1Sh(6) -       , coefficient of x^6 term
+    60.2285   TwSSM2Sh(2) - Mode 2, coefficient of x^2 term
+   -27.5868   TwSSM2Sh(3) -       , coefficient of x^3 term
+   -30.3887   TwSSM2Sh(4) -       , coefficient of x^4 term
+   -33.6738   TwSSM2Sh(5) -       , coefficient of x^5 term
+    32.4208   TwSSM2Sh(6) -       , coefficient of x^6 term
+
+

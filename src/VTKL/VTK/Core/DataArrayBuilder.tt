@@ -1,0 +1,124 @@
+﻿// <copyright file="DataArrayBuilder.cs" company="Huang, Zhaoquan">
+// Copyright (c) Huang, Zhaoquan. All rights reserved.
+// This file may be licensed to you as part of the project (see license file if exists),
+// but the copyright info in this file should not be removed.
+// </copyright>
+<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs"#>
+<#@ include file="Xml/DataArrayTypes.ttinclude"#>
+
+// The following code is generated from template DataArray.FillData.tt
+#pragma warning disable SA1402 // File may only contain a single type
+#pragma warning disable SA1649 // File name should match first type name
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenWECD.VTKL.Core.Xml;
+
+namespace OpenWECD.VTKL.Core
+{
+<#
+    bool isFirst = true;
+    foreach (var type in dataArrayTypes)
+    {
+        string typeName = $"DataArrayBuilder{type.Value}";
+        if (isFirst)
+        {
+            isFirst = false;
+        }
+        else
+        {
+#>
+
+<#
+        }
+#>
+    /// <summary>
+    /// The builder to store data for building a <see cref="DataArray"/> XML element.
+    /// The element type is <#= type.Key #>.
+    /// </summary>
+    public class <#= typeName #> : IDataArrayBuilder
+    {
+        private readonly List<<#= type.Key #>> data = new List<<#= type.Key #>>();
+
+        /// <summary>
+        /// Creates an instance of <see cref="<#= typeName #>"/>.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the data array.
+        /// </param>
+        /// <param name="numberOfComponents">
+        /// The number of components per value (e.g., per point / per cell).
+        /// </param>
+        public <#= typeName #>(string name, uint numberOfComponents = 1)
+        {
+            this.Name = name;
+            this.NumberOfComponents = numberOfComponents;
+        }
+
+        /// <summary>
+        /// Gets the name of the data array.
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// Gets the number of components per data point.
+        /// </summary>
+        public uint NumberOfComponents { get; }
+
+        /// <summary>
+        /// Appends a scalar value to the data array.
+        /// </summary>
+        /// <param name="value">The value to be appended.</param>
+        /// <exception cref="InvalidOperationException">
+        /// <see cref="NumberOfComponents"/> was set to not 1. A vector is expected but a scalar is appended.
+        /// </exception>
+        public void AddScalarDatum(<#= type.Key #> value)
+        {
+            if (NumberOfComponents != 1)
+            {
+                throw new InvalidOperationException("To add scalar datum, numberOfComponents must be 1.");
+            }
+
+            data.Add(value);
+        }
+
+        /// <summary>
+        /// Appends a vector value to the data array.
+        /// </summary>
+        /// <param name="value">The vector components to be appended.</param>
+        /// <exception cref="InvalidOperationException">
+        /// Length of <paramref name="value"/> does not equal to <see cref="NumberOfComponents"/>.
+        /// </exception>
+        public void AddVectorDatum(IEnumerable<<#= type.Key #>> value)
+        {
+            if (value.Count() != NumberOfComponents)
+            {
+                throw new InvalidOperationException("The number of components in each vector datum must match numberOfComponents.");
+            }
+
+            data.AddRange(value);
+        }
+
+        /// <summary>
+        /// Builds the XML element for serializing.
+        /// </summary>
+        /// <returns>The <see cref="DataArray"/> instance that represents the XML element.</returns>
+        public DataArray ToXml()
+        {
+            DataArray array = new DataArray();
+            array.NumberOfComponents = NumberOfComponents;
+            array.Name = Name;
+            array.FillData(data);
+            return array;
+        }
+    }
+<#
+    }
+#>
+}

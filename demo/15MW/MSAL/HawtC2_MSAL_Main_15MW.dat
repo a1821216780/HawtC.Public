@@ -1,0 +1,73 @@
+======  Outputs  ====================================================================================
+true                                       SumPrint  - 是否生成AeroL输出文件 "<rootname>.AL.out"?  (flag)
+false                                        AfSpanput - 输出模式选择是节点·还是变量。如果是节点将生成下面节点数量的文件，否则生成输出变量个数的文件。当前先支持输出节点。
+0                                            BldOutSig - 输出的叶片编号，默认只有0
+"./Result1/"                                SumPath   - 生成的文件夹名称，注意是文件夹！
+9                                           NBlOuts   - Number of blade node outputs [0 - BlOutNd-1] (-)
+0, 1, 15, 20, 24, 29, 34, 39, 44,                BlOutNd   - Blade nodes whose values will be output  (-)（从0开确实算）
+3                                           NTwOuts   - Number of tower node outputs [0 - BlOutNd-1]  (-)
+0,          3,        5                     TwOutNd   - Tower nodes whose values will be output  (-)（从0开确实算）
+                   OutList                  - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+BkNjADxi
+BkNjADyi
+BkNjADzi
+BldKADxi
+BldKADyi
+BldKADzi
+BkNjADxt
+BkNjADyt
+BkNjADzt
+BldKADxt
+BldKADyt
+BldKADzt
+BkNjAWxi
+BkNjAWyi
+BkNjAWzi
+BldKAWxi
+BldKAWyi
+BldKAWzi
+BkNjAWxt
+BkNjAWyt
+BkNjAWzt
+BldKAWxt
+BldKAWyt
+BldKAWzt
+TwHtADxi
+TwHtADyi
+TwHtADzi
+TwHtADxt
+TwHtADyt
+TwHtADzt
+TwrADxi
+TwrADyi
+TwrADzi
+TwrADxt
+TwrADyt
+TwrADzt
+TwHtAWxi
+TwHtAWyi
+TwHtAWzi
+TwHtAWxt
+TwHtAWyt
+TwHtAWzt
+TwrAWxi
+TwrAWyi
+TwrAWzi
+TwrAWxt
+TwrAWyt
+TwrAWzt
+RtADxi
+RtADyi
+RtADzi
+RtADxt
+RtADyt
+RtADzt
+RtAWxi
+RtAWyi
+RtAWzi
+RtAWxt
+RtAWyt
+RtAWzt
+
+END 不允许删除！
+---------------------------------------------------------------------------------------

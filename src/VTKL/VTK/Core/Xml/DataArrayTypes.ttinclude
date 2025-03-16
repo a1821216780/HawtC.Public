@@ -1,0 +1,15 @@
+<#
+    var dataArrayTypes = new Dictionary<string, string>
+    {
+        ["byte"] = "UInt8",
+        ["sbyte"] = "Int8",
+        ["short"] = "Int16",
+        ["ushort"] = "UInt16",
+        ["int"] = "Int32",
+        ["uint"] = "UInt32",
+        ["long"] = "Int64",
+        ["ulong"] = "UInt64",
+        ["float"] = "Float32",
+        ["double"] = "Float64",
+    };
+#>

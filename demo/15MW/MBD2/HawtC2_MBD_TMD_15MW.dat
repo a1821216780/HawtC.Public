@@ -1,0 +1,27 @@
+---------------------- OpenHast MBD MBD FILE ---------------------------------------
+Comment
+----------------------  Control  ---------------------------- 如果hast主文件当中设置，将会覆盖这里的读取开关
+false               TowerTMDI    - 是否开启塔架TMD计算
+true,true,true                BladeTMDI    - 是否开启塔架TMD计算
+----------------------  TOWER TMDI [used only TowerTMDI=true]  -------------------
+30                                TMDTwr_Idx              - 阻尼器安装位置(从塔架底部为编号1开始计算)
+3.8507e+06                      TMDTwr_m_dummy_TSS1     - 阻尼器的质量
+0.01                            TMDTwrMassRatio         - 阻尼器质量阻尼系数
+0.4885                          TMDTwrFreqfac           - 阻尼器自己的频率调节系数
+0.8                             TMDTwrbeta              - 动力学当中的系数，建议值即可，需要优化器优化
+0                                TMDTwrDir               - TMD的运动方向{0：SS，1：FA}
+true                             TMDTwrOpt               - 是否使用程序内置的优化器优化{TMDITwrTuningRat, TMDITwrzeta_TMD}
+400                              TMDTwrOptMaxItr         - 最大迭代次数
+8.9055                           TMDTwrTuningRat         - TMDI 圆盘周期[used only TMDTwrOpt=false]
+1.1348                           TMDTwrzeta_TMD          - TMDI 圆盘动力学系数[used only TMDTwrOpt=false]
+----------------------  BLADE TMDI [used only BladeTMDI=true] -------------------
+17  17 17                            TMDBld_Idx              - 阻尼器安装位置
+7.6507e+03,7.6507e+03,7.6507e+03                       TMDBld_m_dummy_TSS1     - 阻尼器的质量
+0.04  ,0.04 ,0.04                            TMDBldMassRatio         - 阻尼器质量阻尼系数
+1.5885  1.5885 1.5885               TMDBldFreqfac           - 阻尼器自己的频率调节系数//0.885摆振ok
+0.4  0.4  0.4                            TMDBldbeta              - 动力学当中的系数，建议值即可，需要优化器优化
+1   ,1   ,1                              TMDBldDir               - TMD的运动方向{0：SS，1：FA}
+true ,true  ,true                        TMDBldOpt               - 是否使用程序内置的优化器优化{TMDITwrTuningRat, TMDITwrzeta_TMD}
+400,400  ,400                                TMDBldOptMaxItr         - 最大迭代次数
+1 ,1 ,1                                TMDBldTuningRat         - TMDI 圆盘周期[used only TMDBldOpt=false]
+1  ,1 ,1                               TMDBldzeta_TMD          - TMDI 圆盘动力学系数[used only TMDBldOpt=false]

@@ -1,0 +1,126 @@
+------- OpenWECD.AeroL  主文件 v1.02.* This software design and writen By 赵子祯 ------------------------------------------------
+NREL 15.MW offshore baseline Powercurve
+======  计算选项   ===================================================================================
+2           ApOfMb             - 计算选项{0=外部调用将读取塔架叶片等模型参数，1=计算叶片Cp,2=计算叶片的功率，推力等变桨曲线表}
+
+======  风力机叶片和塔基信息   ===================================== [used only when ApOfMb=0，1 and 2]
+3.97          HubRad              - 轮毂半径
+3             Bldnum              - 叶片数量（非常重要!）
+
+======  模型选项  ============================================================================
+          2     WakeMod           - 气动力计算模型 {0=none, 1=SBEMT, 2=DBEMT,3=FreeWake,4=SBEMT_UMT,5=DBEMT_UMT}
+          1    AFAeroMod        - 动态失速模型 {1=steady model, 2=BL ，3=Øye ，4=IAG，5=GOR，6=ATEF}(使用BEMT方法的时候不建议使用ATEF模型)
+          0     3DRotationalEffect   - 三维旋转效应模型{0=不考虑旋转效应，1=Snel模型}
+false        TwrShadow        - 是否考虑塔影效应对叶片气动力的影响(flag)
+false        TwrAero              - 是否计算塔架的气动力 (flag)
+true        NacAero              - 是否计算机舱的气动力 (flag)
+======  环境参数 ===================================================================
+      1.225   AirDens            -  空气密度 (kg/m^3)
+  1.464E-05   KinVisc         -  客气运动粘度 (m^2/s)
+        335   SpdSound         -  声速 (m/s)
+
+======  BEM 气动力计算参数  ====================================================== [used only when WakeMod=1]
+1                 SkewMod               - 偏斜尾流修正模型类型(switch) {1=uncoupled, 2=Pitt/Peters, 3=coupled} [unused when WakeMod=1 or 2]
+default       SkewModFactor    - Pitt/Peters斜尾流模型中使用的常数 {or "default" is 15/32*pi} (-) [used only when SkewMod=2; unused when WakeMod=0 or 3]
+True          TipLoss                   - 普朗特（Prandtl）叶尖损失模型 [used only when WakeMod=1]
+True          HubLoss                 - 普朗特（Prandtl）叶根损失模型 (flag) [used only when WakeMod=1]
+1E-15        BemtError               - 叶素动量理论的迭代误差要求 [used only when WakeMod=1]
+300            MaxIter                    - 最大迭代步数 (-) [used only when WakeMod=1]
+
+======  B-L 动态失速模型参数  ===================================== [used only when AFAeroMod=2]
+          3      UAMod              - Unsteady Aero Model Switch (switch) {1=Baseline model (Original), 2=Gonzalez s variant (changes in Cn,Cc,Cm), 3=Minemma/Pierce variant (changes in Cc and Cm)} [used only when AFAeroMod=2]
+True          FLookup            - Flag to indicate whether a lookup for f' will be calculated (TRUE) or whether best-fit exponential equations will be used (FALSE); if FALSE S1-S4 must be provided in airfoil input files (flag) [used only when AFAeroMod=2]
+
+======  自由涡尾迹模型(Free Vortex Wake)  ================== [used only when WakeMod=2]
+"../IEA-15-240-RWT-OLAF/IEA-15-240-RWT_OLAF.dat"  OLAFInputFileName - Input file for OLAF [used only when WakeMod=2]
+
+======  Rotor/Blade Properties  =====================================================================
+True          UseBlCm            - 在计算中包括气动俯仰力矩  (flag)
+"../MBD2/HawtC2_MBD_blade_AMM.str"    ADBlFile(1)        - 叶片气动结构耦合文件路径
+"../MBD2/HawtC2_MBD_blade_AMM.str"    ADBlFile(2)        - 叶片气动结构耦合文件路径
+"../MBD2/HawtC2_MBD_blade_AMM.str"    ADBlFile(3)        - 叶片气动结构耦合文件路径
+
+======  Tower Influence and Aerodynamics ============================================================= [used only when TwrPotent/=0, TwrShadow=True, or TwrAero=True]
+"../MBD2/HawtC2_MBD_tower_AMM.str"    ADTwrFile - 塔架气动结构耦合文件路径
+
+======  翼型信息 =========================================================================
+          8   NumAFfiles         - 翼型数量(-)
+ 2    InterpOrd  - 翼型插值方法 {1=linear; 2=cubic spline; "default"} 
+"./Airfoils/NRELCylinder.dat"    AFNames            - 翼型文件集合路径（必须按照厚度从大到小排列）
+"./Airfoils/NREL_FFA_W3_500.dat"
+"./Airfoils/NREL_FFA_W3_360.dat"
+"./Airfoils/NREL_FFA_W3_330Blend.dat"
+"./Airfoils/NREL_FFA_W3_301.dat"
+"./Airfoils/NREL_FFA_W3_270blend.dat"
+"./Airfoils/NREL_FFA_W3_241.dat"
+"./Airfoils/NREL_FFA_W3_211.dat"
+
+
+======  计算Cp曲线  ===================================== [used only when ApOfMb=1]
+3             Minlamda            - 最小的叶尖速比
+30            Maxlamda            - 最大的叶尖速比
+0.1           lamdaStep           - 叶尖速比的间隔
+-0.1          MinPitch            - 最小的变桨角[rad]
+0.1          MaxPitch            - 最大的变桨角[rad]
+0.005          PitchStep           - 变桨角的间隔[rad]
+"./Result/test_AeroL_cp.out"                     CpResultFilePath   - 计算Cp曲线的结果文件
+======  计算功率曲线  ===================================== [used only when ApOfMb=2]
+3             MinWindSpeed            - 最小风速[m/s]
+25            MaxWindSpeed            - 最大风速[m/s]
+0.01         WindSpeedStep           - 风速间隔[m/s]
+0.0           orig_pit                - 初始桨距角[rad]
+3             ωmin                    - 切入转速[rpm/min]
+15000          opt_KW                  - 额定功率[kw]</param>
+7.55            opt_rpm_rad             - 额定转速[rpm/min]
+96            η                       - 发电机效率%
+1.57          pitch_up                - 最大桨距角[rad]
+0.0           pitch_down              - 最小桨距角[rad]
+True          ifpitch                 - 是否变桨
+0.0           Fixed_pitch             - 固定桨距角[rad][used only when ifpitch=false]
+0.0           Fixed_rotationalspeed   - 固定转速[rpm/min][used only when ifpitch=false]
+"./Result/test_AeroL_PowerCurve.out"                     PowerCurveResultFilePath   - 计算功率曲线的结果文件目录
+======  Outputs  ====================================================================================
+true                                       SumPrint  - 是否生成AeroL输出文件 "<rootname>.AL.out"?  (flag)
+false                                        AfSpanput - 输出模式选择是节点·还是变量。如果是节点将生成下面节点数量的文件，否则生成输出变量个数的文件。当前先支持输出节点。
+0                                            BldOutSig - 输出的叶片编号，默认只有0
+"./Result1/"                                SumPath   - 生成的文件夹名称，注意是文件夹！
+9                                           NBlOuts   - Number of blade node outputs [0 - BlOutNd-1] (-)
+0, 1, 15, 20, 24, 29, 34, 39, 44,                BlOutNd   - Blade nodes whose values will be output  (-)（从0开确实算）
+3                                           NTwOuts   - Number of tower node outputs [0 - BlOutNd-1]  (-)
+0,          3,        5                     TwOutNd   - Tower nodes whose values will be output  (-)（从0开确实算）
+                   OutList                  - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+"BkNjPhi",
+"BkNjFl"
+"BkNjFd"
+"BkNjFx"
+"BkNjFy"
+"BkNjMm"
+"BkNjVRel"
+"RtArea"
+"RtAeroCp"
+"RtAeroCq"
+"RtAeroCt"
+BkNjVUndx
+BkNjVUndy
+BkNjVUndz
+BkNjVDisx
+BkNjVDisy
+BkNjVDisz
+BkNjSTVx
+BkNjSTVy
+BkNjSTVz
+BkNjTheta
+BPitch
+BkNjAxInd
+BkNjTnInd
+BAzimuth
+
+
+
+
+
+
+
+
+END 不允许删除！
+---------------------------------------------------------------------------------------

@@ -1,0 +1,79 @@
+------- ControL v1.00.* 主输入文件 --------------------------------------------
+NREL 5.0 MW Baseline Wind Turbine for Use in Offshore Analysis. Properties from Dutch Offshore Wind Energy Converter (DOWEC) 6MW Pre-Design (10046_009.pdf) and REpower 5M 5MW (5m_uk.pdf)
+---------------------- SIMULATION CONTROL --------------------------------------
+0.01     DT           - 与控制器的通讯时间间隔
+---------------------- PITCH CONTROL -------------------------------------------
+          2   PCMode       - 变桨模型 {0: 不采用控制器,  1：用户自定义控制器 ，2: 外部Bladed控制器} (switch)
+          2   PitManRat(1) - 变桨速度 (deg/s)
+          0   BlPitchF(1)  - 叶片最大变桨角度 (degrees)
+---------------------- GENERATOR AND TORQUE CONTROL ----------------------------
+          2  VSContrl     - Variable-speed control mode {0: 不采用控制器,  1：用户自定义控制器 ，2: 外部Bladed控制器(开发完毕未经测试!)}
+          94.4   GenEff       - Generator efficiency [ignored by the Thevenin and user-defined generator models] (%)
+---------------------- SIMPLE PITCH CONTROL ------------------------------------
+122.9096      PC_RefSpd    -
+0.0008965149  PC_KI        -
+0.1099965     PC_KK        -
+0.006275604   PC_KP        -
+1.570796      PC_MaxPit    -
+0.1396263     PC_MaxRat    -
+0             PC_MinPit    -
+---------------------- SIMPLE VARIABLE-SPEED TORQUE CONTROL --------------------
+121.6805      VS_RtGnSp    - 简单控制器电机高速端(HSS)处的额定转速(rpm) [used only when VSContrl=1]
+43093.54      VS_RtTq      - 额定的电机扭矩/constant generator torque in Region 3 for simple variable-speed generator control (HSS side) (N-m) [used only when VSContrl=1]
+0.0255764     VS_Rgn2K     - Generator torque constant in Region 2 for simple variable-speed generator control (HSS side) (N-m/rpm^2) [used only when VSContrl=1]
+10.0          VS_SlPc      - Rated generator slip percentage in Region 2 1/2 for simple variable-speed generator control (%) [used only when VSContrl=1]
+70.16224      VS_CtInSp    -
+15000         VS_MaxRat    -
+47402.91      VS_MaxTq     -
+91.21091      VS_Rgn2Sp    -
+0.01745329    VS_Rgn3MP    -
+5296610.0     VS_RtPwr     -
+---------------------- NACELLE-YAW CONTROL -------------------------------------
+          0   YCMode       - Yaw control mode {0: none, 3: user-defined from routine UserYawCont, 4: user-defined from Simulink/Labview, 5: user-defined from Bladed-style DLL} (switch)
+     9999.9   TYCOn        - Time to enable active yaw control (s) [unused when YCMode=0]
+          0   YawNeut      - Neutral yaw position--yaw spring force is zero at this yaw (degrees)
+9.02832E+09   YawSpr       - Nacelle-yaw spring constant (N-m/rad)
+  1.916E+07   YawDamp      - Nacelle-yaw damping constant (N-m/(rad/s))
+          2   YawManRat    - Yaw maneuver rate (in absolute value) (deg/s)
+          0   NacYawF      - Final yaw angle for override yaw maneuvers (degrees)
+---------------------- BLADED INTERFACE ---------------------------------------- [used only with Bladed Interface]
+"./DISCON_OC3Hywind_x64.dll"    DLL_FileName - Name/location of the dynamic library {.dll [Windows] or .so [Linux]} in the Bladed-DLL format (-) [used only with Bladed Interface]
+"./DISCON.IN"    DLL_InFile   - Name of input file sent to the DLL (-) [used only with Bladed Interface]
+"DISCON"      DLL_ProcName - Name of procedure in DLL to be called (-) [case sensitive; used only with DLL Interface]
+false         DLL_Ramp     - Whether a linear ramp should be used between DLL_DT time steps [introduces time shift when true] (flag) [used only with Bladed Interface]
+     9999.9   BPCutoff     - Cuttoff frequency for low-pass filter on blade pitch from DLL (Hz) [used only with Bladed Interface]
+          0   NacYaw_North - Reference yaw angle of the nacelle when the upwind end points due North (deg) [used only with Bladed Interface]
+          0   Ptch_Cntrl   - Record 28: Use individual pitch control {0: collective pitch; 1: individual pitch control} (switch) [used only with Bladed Interface]
+          0   Ptch_SetPnt  - Record  5: Below-rated pitch angle set-point (deg) [used only with Bladed Interface]
+          0   Ptch_Min     - Record  6: Minimum pitch angle (deg) [used only with Bladed Interface]
+          0   Ptch_Max     - Record  7: Maximum pitch angle (deg) [used only with Bladed Interface]
+          0   PtchRate_Min - Record  8: Minimum pitch rate (most negative value allowed) (deg/s) [used only with Bladed Interface]
+          0   PtchRate_Max - Record  9: Maximum pitch rate  (deg/s) [used only with Bladed Interface]
+          0   Gain_OM      - Record 16: Optimal mode gain (Nm/(rad/s)^2) [used only with Bladed Interface]
+          0   GenSpd_MinOM - Record 17: Minimum generator speed (rpm) [used only with Bladed Interface]
+          0   GenSpd_MaxOM - Record 18: Optimal mode maximum speed (rpm) [used only with Bladed Interface]
+          0   GenSpd_Dem   - Record 19: Demanded generator speed above rated (rpm) [used only with Bladed Interface]
+          0   GenTrq_Dem   - Record 22: Demanded generator torque above rated (Nm) [used only with Bladed Interface]
+          0   GenPwr_Dem   - Record 13: Demanded power (W) [used only with Bladed Interface]
+---------------------- BLADED INTERFACE TORQUE-SPEED LOOK-UP TABLE -------------
+          0   DLL_NumTrq   - Record 26: No. of points in torque-speed look-up table {0 = none and use the optimal mode parameters; nonzero = ignore the optimal mode PARAMETERs by setting Record 16 to 0.0} (-) [used only with Bladed Interface]
+ GenSpd_TLU   GenTrq_TLU
+ (rpm)          (Nm)
+---------------------- OUTPUT --------------------------------------------------
+true                                        SumPrint  - 是否生成MBD输出文件 "<rootname>.EL.out"?  (flag)
+true                                        AfSpanput - 输出模式选择是节点·还是变量。如果是节点将生成下面节点数量的文件，否则生成输出变量个数的文件。当前先支持输出节点。
+0,2                                         BldOutSig - 输出的叶片编号，默认只有0
+"./Result1/"                            SumPath   - 生成的文件夹名称，注意是文件夹！
+18                                            NBlOuts   - Number of blade node outputs [0 - BlOutNd-1] (-)
+0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18               BlOutNd   - Blade nodes whose values will be output  (-)（从0开确实算）
+10                                               NTwOuts   - Number of tower node outputs [0 - BlOutNd-1]  (-)
+0,1,2,3,4,5,,7,8,9,10              TwOutNd   - Tower nodes whose values will be output  (-)（从0开确实算）
+              OutList     - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+"BlPitchC
+"GenTq
+"GenPwr
+"HSSBrTqC
+"YawMomCom
+
+END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
+

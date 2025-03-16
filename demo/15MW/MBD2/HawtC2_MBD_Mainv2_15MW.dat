@@ -1,0 +1,296 @@
+------- HawtC2.MBD2 多体动力学第二版 输入文件 -------------------------------------------
+NREL 15.0MW_MBD_MainFile
+---------------------- 多机头风轮定义 -------------------------------------
+1                     TowerNum    - 塔架数量(支持1或者2,2以上没有经过测试)
+90                   TowerYdeg   - 塔架之间的夹角（deg）
+
+---------------------- 环境参数定义 ---------------------------------
+    9.81   Gravity     - Gravitational acceleration (m/s^2)
+
+----------------------  初始化模型参数 --------------------------------------
+-270.0            Azimuth     - 叶片1初始方位角，叶片3在叶片2前，叶片2在叶片1前（deg)
+0.0                 AzimB1Up    -所有输入和输出方位角都是针对于这个值测量的(deg)
+3.0                  RotSpeed    - 初始风轮转速(RPM)
+0.0                    NacYaw      - 初始或安装机舱偏航角，俯视风机时，逆时针为正（deg)
+
+----------------------- 风轮模型参数 (Turbine configuration)---------------------
+3                  NumBld    - 每一个塔架上面的叶片数量(请保证3以上，且两个塔架上的叶片完全一致)(-)
+120.97           TipRad           -  风轮半径 (风轮半径减去轮毂半径可得到叶片长度)(m)
+3.97                HubRad         -  轮毂半径(m)
+-4.0,-4.0,-4.0           PreCone      - 风轮的锥角 (deg) 
+-6 		        ShftTilt      - 主轴的仰角，与平行于地面的面的夹角(deg) 
+-12.097571763912535          OverHang    - 轮毂中心点到塔架中心点（偏航位置）的距离(m)
+4.349459414248071	       Twr2Shft   - 塔架到中心轴的距离 (m) 
+0                      Yaw2Shft   - 偏航系统中心线到横向距离(m)
+0.0                   HubCM       -轮毂质心到风轮平面与转子轴线相交的点的距离(m)
+0.0                   ShftGagL    - 表示风机主轴从法兰盘到机舱前壁的距离(m)
+0,0,0                  TipMass      - 叶尖气动刹车装置质量(kg)
+69131               HubMass     - 轮毂质量 (kg)
+969952            HubIner       -  轮毂关于转子轴的惯性矩 (kg m^2)
+
+----------------------  传动链模型 ( DRIVETRAIN MODEL )  ----------------------------------------------
+100.0                    GBoxEff     - 齿轮箱的传动效率 (%)
+1.0                        GBRatio     - 齿轮箱转动比 ,直驱是1(-)
+95.756		      GENeff      - 发电机的效率 (%)
+1836784               GenIner     - 发电机转轴(HSS)的惯性矩(kg m^2)
+69737644900.0   DTTorSpr    - 传动系扭转刚度 (N-m/rad)
+49418406.0          DTTorDmp    - 传动系扭转阻尼 (N-m/(rad/s))
+
+--------------------- 机舱与偏航的模型定义 ( NACELLE AND YAW MODEL )   ----------------------------------------------
+22.8                     NACCAX    - 机舱长度（m）
+10.0                     NACCAY    - 机舱宽度（m） 
+10.0                     NACCAZ    - 机舱高度（m）
+0.6                       NACCDX    - 机舱下风阻力系数(用于计算机舱的气动力)(-)
+0.6                       NACCDY    - 机舱横向阻力系数(用于计算机舱的气动力)(-)
+0.6                       NACCDZ     - 机舱垂直阻力系数(用于计算机舱的气动力)(-)
+644857               NacMass     - 机舱质量(kg)
+32929058          NacYIner    - 机舱关于偏航轴的惯性矩，该值必须＞NacMass•( NacCMxn的平方 + NacCMyn的平方 )(kg*m^2) 
+-5.125                 NacCMxn     - 机舱质心到塔架轴线的下风向距离(m)
+0.0                       NacCMyn     -  机舱质心到塔架轴线的横向距离(m)
+4.315                  NacCMzn     - 机舱质心到塔架轴线的垂向距离(m)
+0.0                      NcIMUxn        - 机舱惯性测量点到塔架轴线的下风向距离(m)
+0.0                      NcIMUyn       - 机舱惯性测量点到塔架轴线的水平距离(m)
+0.0                      NcIMUzn        - 机舱惯性测量点到塔架轴线的垂向距离(m)
+28249              YawBrMass   - 偏航轴承质量(kg)
+
+---------------------  变桨系统的模型定义  (  PITCH MODEL )  -------------------------------------------
+0,0,0                      BlPitch     - 初始变桨角 (deg)
+28249                    PitchBrMass   - 变桨轴承质量(kg)
+69737644900.0   PitchTorSpr    - 变桨扭转刚度 (N-m/rad)
+49418406.0          PitchTorDamp    - 变桨扭转阻尼 (N-m/(rad/s))
+
+-------------------------------  基础质量和惯性定义 (Ptfm  MASS AND INERTIA )  --------------------------
+15                   TowerBsHt   - TowerHt减去TowerBsHt为塔架高度。如果是陆上，这里应该是0(m）
+0.0                  PtfmCMxt     -  从地面水平[陆上]或平均海平面[海上]到平台质心（CM）的顺风距离（m）
+0.0                  PtfmCMyt     -  从地面水平[陆上]或平均海平面[海上]到平台质心（CM）的侧风距离（m）
+15.0                 PtfmCMzt     -  从地面水平[陆上]或平均海平面[海上]到平台质心（CM）的垂直距离（m）
+15.0                 PtfmRefzt     -  从地面水平[陆上]或平均海平面[海上]到平台参考点的垂直距离（m）
+0                    PtfmMass    - 基础的质量 (kg)
+0                    PtfmRIner   - 围绕平台质心（CM）进行侧倾-倾斜旋转的平台惯性(kg m^2)
+0                    PtfmPIner   - 围绕平台质心（CM）进行俯仰-倾斜旋转的平台惯性(kg m^2)
+100000000.0              PtfmYIner   - 围绕平台CM偏航旋转的平台惯性 (kg m^2)
+0                    PtfmXYIner  -    平台绕其质心的横滚-俯仰惯性矩（Ixy=-∫xydm ） (kg m^2)
+0                    PtfmYZIner  -   平台绕其质心的俯仰-偏航惯性矩（Iyz=-∫yzdm ） (kg m^2)
+0                    PtfmXZIner  -  平台绕其质心的横滚-偏航惯性矩（Ixz=-∫xzdm ） (kg m^2)
+
+-------------------------------  叶片结构模型 ( Blade structure MODEL )  ------------------------------------
+"./HawtC2_MBD_blade_AMM.str"    BldFile     - 叶片结构文件
+"./HawtC2_MBD_blade_AMM.str"     
+"./HawtC2_MBD_blade_AMM.str"    
+
+------------------------------- 塔架结构模型  (Tower structure MODEL)  ------------------------------------
+144.386                TowerHt     - 塔顶到水平面的距离，如果是陆上，TowerHt就是塔架高度(m）
+"./HawtC2_MBD_tower_AMM.str"    TwrFile     - 塔架结构文件，数量与塔架数量一致
+"./HawtC2_MBD_tower_AMM.str"   !如果是双机头可以读取这一行
+
+----------------- 自由度开关 （ Degree of Freedom Switch ）--------------------------------------
+true                   FlapDOF1       -  叶片一阶挥舞模态(AMM模型可用) (flag)
+true                   FlapDOF2       -  叶片二阶挥舞模态(AMM模型可用) (flag)
+true                   EdgeDOF        -  叶片一阶摆振模态(AMM模型可用) (flag)
+false                 DrTrDOF         -  柔性轴自由度 (flag)
+True                 GenDOF          -  发电机自由度 (flag)
+False                YawDOF         -  偏航自由度 (flag)
+true                 TwFADOF1    - 塔架一阶前后弯曲模态(AMM模型可用) (flag)
+true                 TwFADOF2    -   塔架二阶前后弯曲模态(AMM模型可用) (flag)
+true                 TwSSDOF1    -   塔架一阶左右弯曲模态(AMM模型可用) (flag)
+true                 TwSSDOF2    -  塔架二阶左右弯曲模态(AMM模型可用) (flag)
+
+----------------------  叶片、塔架调谐质量-惯性阻尼器模型定义(TMDI)  ------------------------------------------------------
+false                       AfTMDI    - 是否读取TMDI，需要注意，这个值只是控制是否读取文件，并不决定是否开启TMDI
+"./HawtC2_MBD_TMD_22MW.dat"                TMDIFile     - TMDI输入文件
+
+---------------------- OUTPUT --------------------------------------------------
+true                                        SumPrint  - 是否生成ElastioL输出文件 "<rootname>.EL.out"?  (flag)
+true                                        AfSpanput - 输出模式选择是节点·还是变量。如果是节点将生成下面节点数量的文件，否则生成输出变量个数的文件。当前先支持输出节点。
+0,1,2                                         BldOutSig - 输出的叶片编号，默认只有0
+"./Result1/"                            SumPath   - 生成的文件夹名称，注意是文件夹！
+9                                           NBlOuts   - Number of blade node outputs [0 - BlOutNd-1] (-)
+0, 1, 15, 20, 24, 29, 34, 39, 44               BlOutNd   - Blade nodes whose values will be output  (-)（从0开确实算）
+1                                               NTwOuts   - Number of tower node outputs [0 - BlOutNd-1]  (-)
+10              TwOutNd   - Tower nodes whose values will be output  (-)（从0开确实算）
+              OutList     - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+!以下变量是输出的自由度
+                                  "QD2_B1E1 ","QD2_B1F1 ","QD2_B1F2 ","QD2_B2E1 ","QD2_B2F1 ","QD2_B2F2 ","QD2_B3E1 ","QD2_B3F1 ", 
+                                  "QD2_B3F2 ","QD2_DRTR ","QD2_GEAZ ","QD2_HV   ","QD2_P    ","QD2_R    ","QD2_RFRL ","QD2_SG   ", 
+                                  "QD2_SW   ","QD2_TFA1 ","QD2_TFA2 ","QD2_TFRL ","QD2_TSS1 ","QD2_TSS2 ","QD2_Y    ", "QD2_BTMD",
+                                  "QD2_YAW  ","QD_B1E1  ","QD_B1F1  ","QD_B1F2  ","QD_B2E1  ","QD_B2F1  ","QD_B2F2  ","QD_B3E1  ", 
+                                  "QD_B3F1  ","QD_B3F2  ","QD_DRTR  ","QD_GEAZ  ","QD_HV    ","QD_P     ","QD_R     ","QD_RFRL  ", 
+                                  "QD_SG    ","QD_SW    ","QD_TFA1  ","QD_TFA2  ","QD_TFRL  ","QD_TSS1  ","QD_TSS2  ", 
+                                  "QD_Y     ","QD_BTMD","QD_YAW   ","Q_B1E1   ","Q_B1F1   ","Q_B1F2   ","Q_B2E1   ","Q_B2F1   ","Q_B2F2   ", 
+                                  "Q_B3E1   ","Q_B3F1   ","Q_B3F2   ","Q_DRTR   ","Q_GEAZ   ","Q_HV     ","Q_P      ","Q_R      ", 
+                                  "Q_RFRL   ","Q_SG     ","Q_SW     ","Q_TFA1   ","Q_TFA2   ","Q_TFRL   ","Q_TSS1   ", 
+                                  "Q_TSS2   ","Q_Y      ","Q_YAW    ","Q_BTMD"
+!以下变量是输出的位移
+                                   "OoPDefl","IPDefl","TipDzb","TipDxb","TipDyb","Tip2Twr"
+                                   "SpnTDxb","SpnTDyb","SpnTDzb","SpnRDxb","SpnRDyb","SpnRDzb","BlPitch","Azimuth",
+                                   "RotSpeed","RotAccel","GenSpeed","GenAccel","NcIMUTVxs","NcIMUTVys","NcIMUTVzs","NacYaw"
+                                   "YawRate","YawAccel","TTDspFA","TTDspSS","TTDspAx","TwHtALxt","TwHtALyt","TwHtALzt","TwHtTDxt"
+                                   "TwHtTDyt","TwHtTDzt","PtfmTDxt","PtfmTDyt","PtfmTDzt","PtfmSurge","PtfmSway","PtfmHeave",
+                                   "PtfmRoll","PtfmPitch","PtfmYaw",
+!HawtC 独有的支持的
+TipDxyc
+TipDxyb
+RootFxyc
+RootFxyb
+RootMxyc
+RootMxyb
+SpnMLxyb
+SpnFLxyb
+YawBrFxyn
+YawBrFxyp
+YawBrMxyn
+YawBrMxyp
+TwrBsFxyt
+TwrBsMxyt
+TwHtMLxyt
+TwHtFLxyt
+
+!以下变量是输出的力
+"RootFxc",
+"RootFyc",
+"RootFzc",
+"RootFxb",
+"RootFyb",
+"RootFzb",
+"RootMxc",
+"RootMyc",
+"RootMzc",
+"RootMxb",
+"RootMyb",
+"RootMzb",
+"SpnMLxb",
+"SpnMLyb",
+"SpnMLzb",
+"SpnFLxb",
+"SpnFLyb",
+"SpnFLzb",
+"RotThrust",
+"LSShftFya",
+"LSShftFza",
+"LSShftFys",
+"LSShftFzs",
+"LSShftTq",
+"RotPwr",
+"LSSGagMya",
+"LSSGagMza",
+"LSSGagMys",
+"LSSGagMzs",
+"HSShftTq",
+"HSSBrTq",
+"HSShftPwr",
+"HSSGenPwr",
+"YawBrFxn",
+"YawBrFyn",
+"YawBrFzn",
+"YawBrFxp",
+"YawBrFyp",
+"YawBrMxn",
+"YawBrMyn",
+"YawBrMzn",
+"YawBrMxp",
+"YawBrMyp",
+"TwrBsFxt",
+"TwrBsFyt",
+"TwrBsFzt",
+"TwrBsMxt
+"TwrBsMyt",
+"TwrBsMzt",
+"TwHtMLxt",
+"TwHtMLyt",
+"TwHtMLzt",
+"TwHtFLxt",
+"TwHtFLyt",
+"TwHtFLzt",
+"PtfmFxt",
+"PtfmFyt",
+"PtfmFzt",
+"PtfmFxi",
+"PtfmFyi",
+"PtfmFzi",
+"PtfmMxt",
+"PtfmMyt",
+"PtfmMzt",
+"PtfmMxi",
+"PtfmMyi",
+"PtfmMzi"
+Q_B1E1
+Q_B2E1
+Q_B3E1
+Q_B1F1
+Q_B2F1
+Q_B3F1
+Q_B1F2
+Q_B2F2
+Q_B3F2
+Q_DRTR
+Q_GEAZ
+Q_RFRL
+Q_TFRL
+Q_YAW
+Q_TFA1
+Q_TSS1
+Q_TFA2
+Q_TSS2
+Q_SG
+Q_SW
+Q_HV
+Q_R
+Q_P
+Q_Y
+Q_TTMD
+Q_BTMD
+QD_B1E1
+QD_B2E1
+QD_B3E1
+QD_B1F1
+QD_B2F1
+QD_B3F1
+QD_B1F2
+QD_B2F2
+QD_B3F2
+QD_DRTR
+QD_GEAZ
+QD_RFRL
+QD_TFRL
+QD_YAW
+QD_TFA1
+QD_TSS1
+QD_TFA2
+QD_TSS2
+QD_SG
+QD_SW
+QD_HV
+QD_R
+QD_P
+QD_Y
+QD_TTMD
+QD_BTMD
+QD2_B1E1
+QD2_B2E1
+QD2_B3E1
+QD2_B1F1
+QD2_B2F1
+QD2_B3F1
+QD2_B1F2
+QD2_B2F2
+QD2_B3F2
+QD2_DRTR
+QD2_GEAZ
+QD2_RFRL
+QD2_TFRL
+QD2_YAW
+QD2_TFA1
+QD2_TSS1
+QD2_TFA2
+QD2_TSS2
+QD2_SG
+QD2_SW
+QD2_HV
+QD2_R
+QD2_P
+QD2_Y
+QD2_TTMD
+QD2_BTMD
+
+END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
+---------------------------------------------------------------------------------------

@@ -1,0 +1,129 @@
+------- OpenWECD.HydroL  主文件 V1.0.0  --------------------------------------------
+NREL 5.0 MW offshore baseline floating platform HydroDyn input properties for the OC3 Hywind.
+        1            HydroMod       - 水动力计算功能{0:生成波浪文件.wave ; 1:Spar 平台}
+	1           MoorLine       - 系泊系统的控制{0:不使用系泊系统1：MoorDyn,2:OpenMoor,3:MoorL}
+---------------------- ENVIRONMENTAL CONDITIONS --------------------------------
+          1025   WtrDens        - 水的密度 (kg/m^3)
+           320   WtrDpth        - 水深 (meters)
+             0   MSL2SWL        - 静止水位和平均海平面之间的偏移量(m) [正为上]
+	  9.81    GRAVACC        - 重力加速度
+---------------------- CURRENT ------------------------------------------------- 
+0,-80,-160,-240,-320                        CurrentCoordinate  - 不同深度位置是一个数组
+0.609, 0.609, 0.609,0.609,0.609              CurrentVelocity    - 不同深度位置下的流速度，是一个数组，大小与CurrentCoordinate匹配
+3                                            CurrentPolyOrder   - 拟合阶数
+---------------------- WAVES ---------------------------------------------------
+             2   WaveMod        - 入射波运动学模型 {0: none=still water, 1: regular (periodic), 1P#: regular with user-specified phase, 2: JONSWAP，3：Pierson-Moskowitz spectrum (irregular):    
+           3000  WaveTMax       - 入射波计算的分析时间 (sec) 
+           0.05   WaveDT         - 入射波计算的时间步长 (sec) 
+            10	 WaveHs         - 入射波的有效波高 (meters) 
+            11   WaveTp         - 入射波峰值谱周期 Peak-spectral period of incident waves (sec) 
+            0    WavePkShp      - 入射波谱的峰形参数（-）[used when WaveMod==2,程序一般会自动给定，需要自动给定，将这个值设置为0] 
+         0.00001    WvLowCOff      - 波谱的低截止频率或波谱的频率下限，超过该频率，波谱将归零 (rad/s) 
+           50    WvHiCOff       - 波谱的高截止频率或波谱的频率上限，超过该频率，波谱将归零 (rad/s) 
+	   120   WvNumCOff      - 波谱频率生成数量 (rad/s) 
+            0   WaveDir        - 入射波传播航向 (degrees) 
+     11111   WaveSeed       - 入射波的第一个随机种子[-2147483648 to 2147483647]    (-)      
+TRUE             WaveNDAmp      - Flag for normally distributed amplitudes                            (flag)    [only used when WaveMod=2, 3, or 4]""              
+1                       FileGes   -  生成文件的格式{1: Matlab, 2: Binary, 3: MsExcle}
+"E:\OpenhastV7\demo\HydroL\demo\test1mat.wave"        WvKinFile      - 外部生成的波数据文件的根名称(或者是要生成文件的绝对路径)(.wave)   如果为 "DEFAULT" 系统在计算时将读取上方参数，否则直接导入文件
+---------------------- MoorLine ------------------------------------------------[used with MoorLine!=0]
+"./Lines.dll"                             MoorLineDLL   -  外部调用的模块dll路径,openmoor填写"./HawtC.HydroL.MoorL.dll" ,MoorDYN填写"./Lines.dll" 
+0.01                                              MoorLineDT     - 调用MoorLine的时间步长
+"./NRELOffshrBsline5MW_HydroL_MoorDyn.dat"     MoorDynFile    - MoorDyn 和 MoorL 输入文件
+"./NRELOffshrBsline5MW_HydroL_OpenMoor.xml"	OpenMoorFile   - OpenMoorFile输入文件
+---------------------- FLOATING PLATFORM --------------------------------------- [unused with WaveMod=6]
+            0                  PotMod         - Potential-flow model {0: none=no potential flow(不读取WvKinFile文件), 1: Wave 时域力，2：WAMIT file}
+     true                       ConRead       - Continue read wave file,if wave exceed time
+"../5MW_Baseline/HydroData/Spar"    PotFile        -[PotMod==2] Root name of potential-flow model data; WAMIT output files containing the linear, nondimensionalized, hydrostatic restoring matrix (.hst), frequency-dependent hydrodynamic added mass matrix and damping matrix (.1), and frequency- and direction-dependent wave excitation force vector per unit wave amplitude (.3) (quoted string) [MAKE SURE THE FREQUENCIES INHERENT IN THESE WAMIT FILES SPAN THE PHYSICALLY-SIGNIFICANT RANGE OF FREQUENCIES FOR THE GIVEN PLATFORM; THEY MUST CONTAIN THE ZERO- AND INFINITE-FREQUENCY LIMITS!]
+             1                      WAMITULEN      -[PotMod==2]Characteristic body length scale used to redimensionalize WAMIT output (meters) [only used when PotMod=2]
+       8029.21                      PtfmVol0       -[unuseful]Displaced volume of water when the platform is in its undisplaced position (m^3) [only used when PotMod=1; USE THE SAME VALUE COMPUTED BY WAMIT AS OUTPUT IN THE .OUT FILE!]
+             0                      PtfmCOBxt      -[unuseful]The xt offset of the center of buoyancy (COB) from the platform reference point (meters)  [only used when PotMod=1,2]
+             0                      PtfmCOByt      -[unuseful]The yt offset of the center of buoyancy (COB) from the platform reference point (meters)  [only used when PotMod=1,2]
+---------------------- PLATFORM ADDITIONAL STIFFNESS AND DAMPING  --------------
+             0             0      80708100             0             0             0   AddF0    - 附加预应力 (N, N-m)
+             1             0             0             0             0             0   AddCLin  - 附加静水压力 (N/m, N/rad, N-m/m, N-m/rad)
+             0             1             0             0             0             0
+             0             0             1             0             0             0
+             0             0             0             1             0             0
+             0             0             0             0             1             0
+             0             0             0             0             0      98340000   
+             0             0 	         0 	           0 	         0 	           0  AddCHydr0 - 静水力矩阵(我也不知道是什么玩意)
+             0             0 	         0 	           0 	         0 	           0 
+             0 	           0 	    332941 	           0 	         0 	           0 
+             0 	           0 	         0       -4999180000 	     0 	           0 
+             0             0 	         0             0   -4999180000 	           0 
+             0             0 	         0 	           0 	         0 	           0 
+        100000             0             0             0             0             0   AddBLin  - 附加线性阻尼(N/(m/s), N/(rad/s), N-m/(m/s), N-m/(rad/s))
+             0        100000             0             0             0             0
+             0             0        130000             0             0             0
+             0             0             0             0             0             0
+             0             0             0             0             0             0
+             0             0             0             0             0      13000000
+---------------------- AXIAL COEFFICIENTS --------------------------------------
+             2   NAxCoef        - 轴向系数数量(-)
+AxCoefID  AxCd     AxCa     AxCp
+   (-)    (-)      (-)      (-)
+    1     0.60     0.969954     1.00
+    1     0.60     0.969954     1.00
+---------------------- MEMBER JOINTS[目前只支持Spar] -------------------------------------------
+             4   NJoints        - Number of joints (-)   [must be exactly 0 or at least 2]
+JointID   Jointxi     Jointyi     Jointzi  JointAxID   JointOvrlp   [JointOvrlp= 0: do nothing at joint, 1: eliminate overlaps by calculating super member]
+   (-)     (m)         (m)         (m)        (-)       (switch)
+    1     0.00000     0.00000  -120.00000      1            0
+    2     0.00000     0.00000   -12.00000      1            0
+    3     0.00000     0.00000    -4.00000      1            0
+    4     0.00000     0.00000     10.00000      2           0
+---------------------- MEMBER CROSS-SECTION PROPERTIES -------------------------
+             2   NPropSets      - Number of member property sets (-)
+PropSetID    PropD         PropThck
+   (-)        (m)            (m)
+    1        9.40000        0.00010
+    2        6.50000        0.00010
+
+======  Outputs  ====================================================================================
+true                                       SumPrint  - 是否生成AeroL输出文件 "<rootname>.AL.out"?  (flag)
+"./Result1/"                                SumPath   - 生成的文件夹名称，注意是文件夹！
+4                                           NSparOutNdnum   - Number of Plat node outputs [0 - partnum-1] (-)
+ 0,1,2,3             SparOutNd   - Blade nodes whose values will be output  (-)（从0开确实算,从高处到低处）
+                   OutList                  - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+HydroFxi
+HydroFyi
+HydroFzi
+HydroMxi
+HydroMyi
+HydroMzi
+PRPSurge
+PRPSway
+PRPHeave
+PRPRoll
+PRPPitch
+PRPYaw
+PRPTVxi
+PRPTVyi
+PRPTVzi
+PRPRVxi
+PRPRVyi
+PRPRVzi
+PRPTAxi
+PRPTAyi
+PRPTAzi
+PRPRAxi
+PRPRAyi
+PRPRAzi
+SpnSparFxi
+SpnSparFyi
+SpnSparFzi
+SpnSparMxi
+SpnSparMyi
+SpnSparMzi
+MoorFxi
+MoorFyi
+MoorFzi
+MoorMxi
+MoorMyi
+MoorMzi
+
+
+
+
+END 不允许删除！

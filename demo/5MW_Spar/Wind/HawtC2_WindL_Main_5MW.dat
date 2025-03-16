@@ -1,0 +1,119 @@
+------- OpenWECD.WindL  主文件 v1.01.* This software design and writen By 赵子祯 --------------------------------------------------------------------
+5MW_ReadTurSimWind
+---------------------------------------------------------------------------------------------------------------
+    4 WindType       - 风文件类型和功能选择 (1=steady; 2=user define; 3=binary TurbSim FF; 4=binary Bladed;5=IEC Wind,6=Generate windfile[IEC WIndfile],7= Generate windfile[turbsim]，8=SimWind bts)
+  	true  CreadW        -  是否循环读取风文件，如果仿真时间大于风文件的时长，将会从头读取风文件        
+	 1   NWindVel       - Number of points to output the wind velocity    (0 to 9)
+          0, 0   WindVxiList    - List of coordinates in the inertial X direction (m)
+          0, 0   WindVyiList    - List of coordinates in the inertial Y direction (m)
+         90, 100   WindVziList    - List of coordinates in the inertial Z direction (m)
+================== Parameters for Steady Wind Conditions [used only for WindType = 1 and 2， 4] =========================
+         11.4  HWindSpeed     - Horizontal windspeed                            (m/s)
+         87   RefHt          - Reference height for horizontal wind speed(equal Zhub)      (m)[if WindType=4,will using]
+         0.0   PLexp          - Power law exponent                              (-)
+================== Parameters for Steady userself Wind Conditions [used only for WindType = 1 and 2] =========================
+       -120   gridY_min  - 网格横向的最小值
+       120   gridY_max  - 网格横向的最大值
+5    gridY_step - 网格横向的步长
+       	0   gridZ_min  - 网格纵向的最小值
+       	180  gridZ_max  - 网格纵向的最大
+5    gridZ_step - 网格纵向的步长
+5            WindSpeedNum  - Wind Speed Num(fomart is "t windspeed")
+0 10                         - WindSpeedList
+30 10
+100 15
+600 50
+1200 200
+================== Parameters for binary TurbSim FF Conditions [used only for WindType = 3] =========================
+"E:\data\WindL_V_15_seed_1895701.wnd"    - TurWindFilePath   - Rootname of the full-field wind file to use (.wnd, .sum)
+
+================== Parameters for Binary Bladed-style Full-Field files   [used only for WindType = 4] =========
+"E:\data\5MWspar.wnd"    - BldWindFilePath   - Rootname of the full-field wind file to use (.wnd)
+
+================== Parameters for Line IEC WIND files   [used only for WindType = 5] =========
+"E:/IEC_wind/NWP23.7.wnd"    - IECWindFilePath   - Rootname of the full-field wind file to use (.wnd)
+
+================== Generate IEC windfile   [used only for WindType = 6] =========
+"E:\data/WindL_IECWind_5MW.dat"    - IECFileRootPath   - 用来生成IEC风文件的文件路径，后缀dat
+"G:\2026\Openhast\demo\WindL\result\GenIECWind"                  - IECFileSavePath   - 用来保存IEC风文件的文件夹路径(必须为绝对路径)
+
+================== Parameters for binary SimWind bts file [used only for WindType = 8]  =========
+"G:\2026\OpenhastV7\demo\WindL\SimWind湍流风生成模块案例\5MWspar.bts"    -  SimWindFilePath   - Rootname of the full-field wind file to use (.bts)
+
+================== Generate windfile   [used only for WindType = 7] =========
+"../wind5MW/WindL_V_17_seed_3901.inp"    - GWindFilePath   - 用来生成风文件的模板文件(后缀必须是.inp)
+20                 - GWindNumAtOneTime  - 同时生成风文件的并行数量，一般设置为处理器的核心数
+"D:\open\"         - FileSavePath       - 风文件的保存路径(必须为绝对路径)
+"G:\2023\OpenWECDV8\Publish\Release\net7.0\runtimes\TurbSim_x64.exe"  - TurbSimExePath               - TurbSimExe文件的路径(必须为绝对路径)                                  
+42                  GwindNum           - 生成的风文件的数量(fomart is "windspeed  seedNum")
+9	1301        - WindFileList - 生成的风文件的数量(fomart is "windspeed  seedNum")
+9	1401
+9	1501
+10	1601
+10	1701
+10	1801
+11	1901
+11	2001
+11	2101
+12	2201
+12	2301
+12	2401
+13	2501
+13	2601
+13	2701
+14	2801
+14	2901
+14	3001
+15	3101
+15	3201
+15	3301
+16	3401
+16	3501
+16	3601
+17	3701
+17	3801
+17	3901
+18	4001
+18	4101
+18	4201
+19	4301
+19	4401
+19	4501
+20	4601
+20	4701
+20	4801
+21	4901
+21	5001
+21	5101
+22	5201
+22	5301
+22	5401
+====================== OUTPUT ==================================================
+true                                        SumPrint  - 是否生成MBD输出文件 "<rootname>.EL.out"?  (flag)
+true                                        AfSpanput - 输出模式选择是节点·还是变量。如果是节点将生成下面节点数量的文件，否则生成输出变量个数的文件。当前先支持输出节点。（没有用，先加上看看后面有没有用）
+0,2                                         BldOutSig - 输出的叶片编号，默认只有0
+"./Result1/"                            SumPath   - 生成的文件夹名称，注意是文件夹！
+18                                            NBlOuts   - Number of blade node outputs [0 - BlOutNd-1] (-)
+0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18               BlOutNd   - Blade nodes whose values will be output  (-)（从0开确实算）（只有外部调用才会读取叶片的节点信息等）
+10                                               NTwOuts   - Number of tower node outputs [0 - BlOutNd-1]  (-)
+0,1,2,3,4,5,7,8,9,10              TwOutNd   - Tower nodes whose values will be output  (-)（从0开确实算）
+10              NumOutP      - THE point which need output<>
+11,15         PointList    - 输出位置点[x,y编号，从0开始,不要越界]（无论内外都会读取，这些点是节点而不是位置）
+12,16
+13,17
+14,18
+15,19
+16,20
+17,14
+18,13
+19,12
+20,11
+              OutList     - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+"WindBVelX"
+"WindBVelY"
+"WindBVelZ"
+"WHubVelX"
+"WHubVelY"
+"WHubVelZ"
+END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
+---------------------------------------------------------------------------------------

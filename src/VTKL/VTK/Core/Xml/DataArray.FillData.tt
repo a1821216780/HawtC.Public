@@ -1,0 +1,95 @@
+﻿
+//**********************************************************************************************************************************
+//LICENSING
+// Copyright(C) 2021, 2025  TG Team,Key Laboratory of Jiangsu province High-Tech design of wind turbine,WTG,WL,赵子祯
+//
+//    This file is part of OpenWECD.VTKL.Core
+//
+// Licensed under the Boost Software License - Version 1.0 - August 17th, 2003
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.HawtC.cn/licenses.txt
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+// SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+// FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
+// 
+//**********************************************************************************************************************************
+
+<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs"#>
+<#@ include file="Xml/DataArrayTypes.ttinclude"#>
+
+// The following code is generated from template DataArray.FillData.tt
+#pragma warning disable SA1412 // Store files as UTF-8 with byte order mark
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+
+namespace OpenWECD.VTKL.Core.Xml
+{
+    /// <summary>
+    /// The type-specific definitions of method "FillData".
+    /// </summary>
+    public partial class DataArray
+    {
+<#
+    bool isFirst = true;
+    foreach (var pair in dataArrayTypes)
+    {
+        if (isFirst)
+        {
+            isFirst = false;
+        }
+        else
+        {
+#>
+
+<#
+        }
+#>
+        /// <summary>
+        /// Clears and fills the data array with given data.
+        /// </summary>
+        /// <param name="data">The collection of all components to be filled with.</param>
+        public void FillData(IEnumerable<<#= pair.Key #>> data)
+        {
+            if (Format == DataArrayFormat.Ascii)
+            {
+                StringBuilder contentString = new StringBuilder();
+                foreach (var datum in data)
+                {
+                    contentString.Append(datum.ToString(CultureInfo.InvariantCulture));
+                    contentString.Append(' ');
+                }
+
+                if (contentString.Length > 0)
+                {
+                    contentString.Remove(contentString.Length - 1, 1);
+                }
+
+                Content = contentString.ToString();
+                Type = DataArrayType.<#= pair.Value #>;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+<#
+    }
+#>
+    }
+}

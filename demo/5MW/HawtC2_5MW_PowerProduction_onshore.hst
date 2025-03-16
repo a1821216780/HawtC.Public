@@ -1,0 +1,52 @@
+------- OpenWECD  主文件 -------------------------------------------
+5MW_PowerProduction_Spar
+---------------------- SIMULATION CONTROL -------------------------------------- 
+600                    TMax         - 总的仿真时长
+0.05                   DT           - 仿真的时间间隔
+1                      InterpOrder  - 插值方法 {0：线性插值，1：非线性插值}
+true                   AeroElastic  - 是否考虑叶片的气动弹性
+false                  AfShowlog    - 是否在仿真的过程当中输出叶片的转矩和转速以及变桨信息
+50                     Dtput        - 多少个DT_Out，输出一次时间（）
+4                      SimulateType -  {1=Performance Coefficients;2=Steady Power Curve and load;3=Steady Parked Loads;4=Power Production;5=Idirng;6=Parked}
+0                       PresetTime   - 一般的，积分器的前几秒会因为刚刚进入仿真而不稳定，该时间为稳定时间
+---------------------- WINDTURBINE CONTROL -------------------------------------
+0                      WTType       - 风力机类型{0：陆上固定式，1：SubFEML(地震等模拟),2:HydroL 海上漂浮式}
+1                      Solver       - {0：RK2,1:RK4,2:HHT-α,3：HOFG-4，4：CrankNicolson，5：staRK4（稳定但是速度极其缓慢！）)
+1                      LinSolver    - {0:Mathnet 默认求解器,1:自己写的共轭梯度法求解器，理论上有更快的求解速度}
+---------------------- ENVIRONMENTAL CONDITIONS --------------------------------
+9.81                   Gravity     - 重力加速度 (m/s^2)
+1.225                  AirDens     - 空气密度 (kg/m^3)
+1025                   WtrDens     - 水密度 (kg/m^3)
+1.464e-05              KinVisc     - 流体的运动粘度 (m^2/s)
+335                    SpdSound    - 声速 (m/s)
+320                    WtrDpth     - 水深 (m)
+0                      MSL2SWL     - 静水水位与平均海平面之间的偏移量(m) [positive upward]
+---------------------- INPUT FILES ---------------------------------------------
+"./MBD2/HawtC2_MBD_Mainv2_5MW.dat"        MBDFile          - MBD 输入文件
+"./Wind/HawtC2_WindL_Main_5MW.dat"        windFile         - windL 输入文件
+"./Aero/HawtC2_AeroL_Main_5MW.dat"        AeroFile         - AeroL 输入文件
+"./ControL/HawtC2_ControlL_Main_5MW.dat"  ControlFile      - ControL 输入文件
+"./Hydro/HawtC2_HydroL_Main_5MW.dat"      HydroLFile       - HydroL输入文件
+"./OpenWECD_HydroL_Main_5MW.dat"          SubFEMLFile      - SubFEML输入文件
+
+----------------------  HAST VTK  ---------------------------------
+false                            AfVTK                   - 是否开启 VTK 输出
+0.8                              DT_VTK                  - 每多少s输出一个VTK文件（最小为DT,越小的DT_VTK以为着越高的帧率）
+2                                VTK_type                - VTK 的输出类型 {1:表示输出体类型 2：表示输出点线类型，线类型支持更高的帧率}
+1,4,7,8                          VTK_outlist             - VTK 显示的在节点上的数据{1：运动位移 2：运动速度 3：运动加速度 4：FX 5:Fy 6:Fz_Load 7:Mx 8:My 9:Mz}
+150                              VTK_SideNum             - VTK 描述模型柱体的侧面节点数量，越大越接近真实体的描述
+true                             VTK_Ground              - VTK 是否输出陆地或者海面
+
+----------------------  EmailSet  ---------------------------------
+false                            AfEmail                 - 是否开启Email
+2                                ReMailNum               - 接收邮箱的数量
+"smtp.qq.com"                    Host                    - SMTP服务器
+587                              Port                    - 端口号
+"wjvgdqoenbrbcbge"               SMIPServiceCode         - 服务器秘钥
+"1821216780@qq.com"              SendMailbox             - 秘钥对应的邮箱
+"1821216780@qq.com"              RecipientMail           - 接收邮箱，可以设置多个
+
+---------------------- OUTPUT --------------------------------------------------
+0.001                                          DT_Out      - 每多少s输出一个数据（if DT_Out<0.0125 , DT_Out=DT）
+0                                              TStart      - 什么时候开始输出数据
+"./TESTRES/Openhast_5MW_PowerProduction_SparV6cMBD2/"  SumPath     - 输出文件的路径

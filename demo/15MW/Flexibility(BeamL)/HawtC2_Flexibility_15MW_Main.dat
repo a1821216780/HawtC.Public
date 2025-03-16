@@ -1,0 +1,97 @@
+------- OpenWECD.BeamL  主文件 v1.00 This software design and writen By 赵子祯 ------------------------------------------------
+NREL 5.0 MW offshore baseline 梁动力学BeamL输入主文件by赵子祯
+======================== SIMULATION CONTROL --------------------------------------！仿真控制
+0          DynamicSolve            - Dynamic solve (false for static solve) (-){0: 静态模态求解, 1:静态位移求解，2：动态位移求解，3：外部调用BeamL采用模态频率法，4：外部调用BeamL采用CR-AMM法（不支持，没什么用），5：外部调用BeamL采用CR-FEM法，6：外部调用BeamL采用GEBT法} 
+========================  General Options  ===========================[used all]
+6         SModeNum                                                                            - 模态拟合的多项式阶数{默认为6阶},注意的是给定的结构变截面要求的截面个数必须>SModeNum +2,默认就行，没必要改
+1                                                AfExtBeamDyn                         - 材料信息文件{0：Beamdyn ,1:Bladed(BeamL)}
+"./demo/BeamL_Bladed_blade_5MW.dat"                             ExtStrFile                               -  外部结构文件路径
+========================  Static Modal Parameter ========================[when used DynamicSolve=0](默认为悬梁，可以计算其他梁)
+True    Af_GFMode                      - 是否生成模态文件，以供Openfast使用,本软件支持生成标准的模态文件
+True    Af_GFModeVector            - 是否生成模态频率向量文件
+True    Af_GFModeShape             - 是否生成模态文件振型文件
+"./Result/测试生成的梁模态文件.out"             GFModePath       - 生成的标准OpenFast模态文件路径[when used Af_GFMode=true]
+"./Result/测试生成的梁模态向量文件.out"       GFModeVectorPath       - 生成的标准模态向量文件路径[when used Af_GFModeVector=true]
+"./Result/测试生成的梁模态振形文件.out"         GFModeShapePath       - 生成的标准模态振形文件路径[when used Af_GFModeShape=true]
+
+========================  Boundary Conditions =======================[when used DynamicSolve=0,1,2]
+0,1 ,2 ,3 , 4 , 5                                           Fixed_Node                               - 边界条件，即固定的自由度编号,默认为节点固定的悬臂梁，编号从零开始算起[when used DynamicSolve!=0]
+
+========================  Static Displacement Analysis ========================[when used DynamicSolve=1]
+2       StaDisAM                  - 动态位移计算模型{0：线性FEM，1：CR-Tkim方法，2：CR-Alsta方法}
+"./demo/BeamL_Dynamic_Displacement_Analysis_InputFilePath_Blade.dat"                      - StaGFInputFPath  - 外部力输入文件路径
+"./Result/测试生成的静态位移梁位移文件.out"   StaDisGFOutPutPath  - 输出梁位移结果文件
+True    StaDisAf_GFMode                 - 是否生成变形后的非线性模态文件，以供Openfast使用,本软件支持生成标准的模态文件
+True    StaDisAf_GFModeVector            - 是否生成变形后的模态频率向量文件[when used StaDisAM=1,2]
+True    StaDisAf_GFModeShape             - 是否生成变形后的模态振型文件[when used StaDisAM=1,2]
+"./Result/测试生成的静态非线性位移梁模态文件.out"             StaDisGFModePath       - 生成的标准变形后的非线性OpenFast模态文件路径[when used StaDisAf_GFMode=true]
+"./Result/测试生成的静态非线性位移梁模态向量文件.out"       StaDisGFModeVectorPath       - 生成的变形后的非线性标准模态文件路径[when used StaDisAf_GFModeVector=true]
+"./Result/测试生成的静态非线性位移梁模态振型文件.out"             StaDisGFModeShapePath       - 生成的变形后的非线性标准模态文件路径[when used StaDisAf_GFModeShape=true]
+
+========================  Dynamic Displacement Analysis ========================[when used DynamicSolve=2]
+0       DynDisAM                   - 动态位移计算模型{0：线性FEM，1：CR-FEM方法，2：CR-Alsta方法，3：CR-Mode方法}
+5       DynDisSolver               - 时域积分方法{0：RK2,1:RK4,2:HHT-α,3：HOFG-4(本文支持的一种高效，高精度积分算法，实践证明其角度和效率高于龙格库塔RK4)}
+0.02    K_fac                      - 刚度矩阵瑞丽阻尼系数
+0.02        M_fac                      - 质量矩阵瑞丽阻尼系数
+20       ElementNum                   - 元素个数{0：和输入的材料与几何参数匹配的个数，!=0 指定的均匀分布的元素个数} kp_total-1；
+0       t_initial            - 仿真开始时间 (s) [used only when DynamicSolve=2]
+300      t_final              - 仿真终止时间   (s) [used only when DynamicSolve=2]
+0.002   t_dt                   - 时域迭代步长         (s) [used only when DynamicSolve=2]
+"./Result/测试生成的动态位移梁位移文件.out"    DynDis_OutPutPath          - 输出计算得到的外部位移文件路径
+True    DynDisAf_GFMode                  - 是否生成模态文件，以供Openfast使用,本软件支持生成标准的模态文件
+True    DynDisAf_GFModeVector            - 是否生成模态频率向量文件
+True    DynDisAf_GFModeShape             - 是否生成模态文件振型文件
+false    DynDisAf_Dllf                    - 下方的外力输入是否使用dll文件
+"./demo/BeamL_Dynamic_Displacement_Analysis_InputFilePath_Blade.dat"    DGFInputFPath          - 外部力输入文件路径
+"./Result/测试生成的梁动态位移模态文件.out"             DGFModePath       - 生成的变形后的非线性标准OpenFast模态文件路径
+"./Result/测试生成的梁动态位移模态向量文件.out"       DGFModeVectorPath       - 生成的变形后的非线性标准模态文件路径
+"./Result/测试生成的梁动态位移模态振型文件.out"             DGFModeShapePath       - 生成的变形后的非线性标准模态文件路径
+
+======================== BeamL VTK ================================================[used only Dynamic solve=0,1,2]
+false                             AfVTK                   - 是否开启 VTK 输出
+1                               DT_VTK                  - 每多少s输出一个VTK文件（最小为DT,越小的DT_VTK以为着越高的帧率）(必须是DT_Out的整数倍)
+50                               VTK_SideNum             - VTK 描述模型柱体的侧面节点数量，越大越接近真实体的描述
+======================== OUTPUT ================================================
+false                                        SumPrint  - 是否生成AeroL输出文件 "<rootname>.AL.out"?  (flag)
+true                                        AfSpanput - 输出模式选择是节点·还是变量。如果是节点将生成下面节点数量的文件，否则生成输出变量个数的文件。当前先支持输出节点。
+1                      DT_Out      - 每多少s输出一个数据
+50                     TStart      - 什么时候开始输出数据
+0,1,2                                           BldOutSig - 输出的叶片编号，默认只有0
+"./Result1/"                                SumPath   - 生成的文件夹名称，注意是文件夹！
+3                                           NBlOuts   - Number of blade node outputs [0 - BlOutNd-1] (-)
+1,5,18                 BlOutNd   - Blade nodes whose values will be output  (-)（从0开确实算）
+3                                           NTwOuts   - Number of tower node outputs [0 - BlOutNd-1]  (-)
+1,          1,        5                     TwOutNd   - Tower nodes whose values will be output  (-)（从0开确实算）
+                   OutList                  - The next line(s) contains a list of output parameters.  See OutListParameters.xlsx for a listing of available output channels, (-)
+"BAzimuth",
+"BPitch",
+"BkNjVUndx",
+"BkNjVUndy",
+"BkNjVUndz",
+"BkNjVDisx",
+"BkNjVDisy",
+"BkNjVDisz",
+"BkNjSTVx",
+"BkNjSTVy",
+"BkNjSTVz",
+"BkNjVRel",
+"BkNjMachN",
+"BkNjVindx",
+"BkNjVindy",
+"BkNjAxInd",
+"BkNjTnInd",
+"BkNjAlpha",
+"BkNjTheta",
+"BkNjPhi",
+"BkNjCl",
+"BkNjCd",
+"BkNjCm",
+"BkNjCx",
+"BkNjCy",
+"RtSpeed",
+"RtTSR",
+"RtSkew",
+"RtAeroPwr",
+"BkNjFx",
+"BkNjFy",
+

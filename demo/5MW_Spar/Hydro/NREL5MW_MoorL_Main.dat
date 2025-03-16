@@ -1,0 +1,64 @@
+--------------------------------------  OpenWECD.MoorL  主文件 -------------------------------------------
+ MoorL_5MW_PowerProduction_Spar
+
+----------------------      CONSTANTS       -------------------------------------- 
+9.80655                           Gravity                - 重力加速度 (m/s^2)
+1025                                WtrDens             - 水密度 (kg/m^3)
+320                                  WtrDpth              - 水深 (m)
+
+----------------------      CURRENT      -------------------------------------- 
+1                                    Polyorder           - 拟合阶数
+5                                     CurN                  - 矩阵行数
+ X (m)         Y (m)         Z (m)          U_c (m/s)     V_c (m/s)     W_c (m/s)   
+ 0.000000E+00  0.000000E+00  0.000000E+00   0.000000E+00  0.000000E+00  0.000000E+00
+ 0.000000E+00  0.000000E+00 -0.800000E+02   0.000000E+00  0.000000E+00  0.000000E+00
+ 0.000000E+00  0.000000E+00 -1.600000E+02   0.000000E+00  0.000000E+00  0.000000E+00
+ 0.000000E+00  0.000000E+00 -2.400000E+02   0.000000E+00  0.000000E+00  0.000000E+00
+ 0.000000E+00  0.000000E+00 -3.200000E+02   0.000000E+00  0.000000E+00  0.000000E+00
+
+----------------------      PLATFORM       -------------------------------------- 
+          0                           PtfmCMxt    - Downwind distance from the ground level [onshore] or MSL [offshore] to the platform CM (meters)
+          0                           PtfmCMyt    - Lateral distance from the ground level [onshore] or MSL [offshore] to the platform CM (meters)
+   -89.9155                     PtfmCMzt    - Vertical distance from the ground level [onshore] or MSL [offshore] to the platform CM (meters)
+          0                           PtfmRoll    - Initial or fixed roll tilt rotational displacement of platform (degrees)
+          0                           PtfmPitch   - Initial or fixed pitch tilt rotational displacement of platform (degrees)
+          0                           PtfmYaw     - Initial or fixed yaw rotational displacement of platform (degrees)
+
+----------------------     CONNECTIONS  ----------------------      
+6         ConN                -   节点矢量
+Node      Type          X               Y             Z        
+(-)            (-)            (m)            (m)          (m)      
+1         anchor      853.87           0          -320    
+2         anchor     -426.94      739.47     -320    
+3         anchor     -426.94    -739.47      -320   
+4         fairlead        5.2             0.0           -70    
+5         fairlead       -2.6            4.5            -70    
+6         fairlead       -2.6           -4.5           -70   
+
+----------------------  Cables LINE PROPERTIES   -----------------------------------------------------
+3         CabN                -    缆线矢量
+Line     current    solver        structproperty     hydroproperty    seabedproperty      UnstrLen    nodenumber           Nodea        Nodeb    Flags/Outputs
+(-)              (-)          (-)                     (-)                         (-)                         (-)                         (m)             (-)                       (-)                  (-)                 (-)
+1                0             0                     0                          0                           0                           902.2          50                        0                    3                 true
+2                0             0                     0                          0                           0                           902.2          20                        1                    4                false
+3                0             0                     0                          0                           0                           902.2          50                        2                    5                false
+----------------------  SOLVERS   -----------------------------------------------------
+1         SolvrN              -    求解类型
+ID      LimitN    error        iniflexfac     relincfac    reldefac     lambdainfinity
+0         400        1e-8              1.0              1.02           1.1                 -0.5
+
+----------------------  Structproperty   -----------------------------------------------------
+1           StrN                -     材料种类
+ID         diameter       unitlengthmass        unitlengthweight       axialstiffness       bendingstiffness       torsionalstiffness        dampingcoefficient         
+(-)             (m)                     (kg/m)                       (N/m)                        (N)                      (N*m^2)                      (N*m^2)                           (s/m)    
+0              0.09                   77.7066                    698.094              3.84243E+08            3.8E+02                             0                                   0
+
+----------------------  Hydroproperties  -----------------------------------------------------
+1          HydN              -        水动力参数数量
+ID        AddMC tangential        AddMC normal           AddMC binormal         DragC tangential        DragC normal           DragC binormal 
+0               0                                           1                                  1                                       0                                  1.6                                  1.6
+
+----------------------  Seabedproperties   -----------------------------------------------------
+1            SeabedN             -      海洋参数数量
+ID         DampC             StiffC
+0             0e5                   3e5
