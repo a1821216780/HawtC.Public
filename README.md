@@ -32,7 +32,6 @@
 
 |             程序             |                     下载地址                     |
 | :---------------------------: | :----------------------------------------------: |
-|         HawtC 主程序         |   http://www.openwecd.fun/update/openhast.zip   |
 |      MKL 矩阵计算加速器      | http://www.openwecd.fun/update/Inter_MKL_ACC.zip |
 |    OpenBLAS 矩阵计算加速器    | http://www.openwecd.fun/update/OpenBlAS_ACC.zip |
 | CUDA 智能风力机矩阵计算加速器 |                   内部开发当中                   |
