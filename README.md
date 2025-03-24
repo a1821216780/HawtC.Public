@@ -63,7 +63,7 @@ http://www.openwecd.fun/data/湍流Compare.ipynb
 ![Compare_Bladed4_11.jpg](./docs/Compare_Bladed4_11.jpg)
 
 ## 源代码支持：
-s
+support@openwecd.fun
 ###### 请访问论坛
 
 ## 开发计划：
