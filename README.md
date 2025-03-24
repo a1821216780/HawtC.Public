@@ -58,7 +58,8 @@ http://www.openwecd.fun/data/湍流Compare.html
 #### 2）验证程序
 
 http://www.openwecd.fun/data/湍流Compare.ipynb
-
+## HawtC 与 Bladed 4.11 计算验证对比
+![Bladed](./)
 ## 源代码支持：
 
 ###### 请访问论坛
