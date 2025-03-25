@@ -8,7 +8,6 @@
 <br/>
 <br/>
 
-# <div align=center>HawtC2 Theory Manual<div align=lift>
 
 <br/>
 <br/>
