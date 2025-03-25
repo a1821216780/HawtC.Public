@@ -8,7 +8,7 @@
 <br/>
 <br/>
 
-# <center>HawtC2 Theory And User Manual<center>
+# <center>HawtC2 Theory And User Manual</center>
 
 <br/>
 <br/>
