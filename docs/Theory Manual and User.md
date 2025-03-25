@@ -8,7 +8,17 @@
 <br/>
 <br/>
 
+# <div align=center>HawtC2 Theory Manual<div align=lift>
 
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
@@ -56,12 +66,16 @@
     - [5.3 阻尼-缓冲器模型](#53-阻尼-缓冲器模型)
     - [5.4 非线性弹簧模型](#54-非线性弹簧模型)
   - [6 控制理论(ControL)](#6-控制理论control)
+    - [6.1 简单的变桨控制](#61-简单的变桨控制)
         - [最优控制曲线](#最优控制曲线)
         - [区域 1](#区域-1)
         - [区域 1.5](#区域-15)
         - [区域 2](#区域-2)
         - [区域 2.5](#区域-25)
         - [区域 3](#区域-3)
+    - [6.2 Bladed接口控制器](#62-bladed接口控制器)
+    - [6.3 DTU-HAWC2接口控制器](#63-dtu-hawc2接口控制器)
+    - [6.4 NREL-OpenFAST接口控制器](#64-nrel-openfast接口控制器)
   - [7 疲劳与极限载荷后处理(PostL)](#7-疲劳与极限载荷后处理postl)
   - [8 多目标优化(MoptL)](#8-多目标优化moptl)
   - [9 应用程序接口(APIL)](#9-应用程序接口apil)
@@ -167,6 +181,7 @@ HawtC2 提供了实现非线性弹簧的功能，即弹簧的刚度取决于节�
 <br/>
 <div align=center><img src="./pic/P-y 曲线的示例.png" alt="P-y 曲线的示例" width="400" height="300"><div align=left>
 <br/>
+
 非线性弹簧可以应用于所有六个自由度，这使得PISA模型(Byrne, Byron W., Harvey J. Burd, Lidija Zdravković, Ross A. McAdam, David M. G. Taborda, Guy T. Houlsby, Richard J. Jardine, Christopher M. Martin, David M. Potts, and Kenneth G. Gavin. “PISA: New Design Methods for Offshore Wind Turbine Monopiles.” Revue Française de Géotechnique, no. 158 (2019): 3. https://doi.org/10.1051/geotech/2019009.)得以在代码当中实现
 当非线性弹簧应用于模型时，如果查找表包含如下定义的力$F$和位移$d$为:
 
@@ -179,6 +194,8 @@ $$K\left(d_x\right)=\frac{F_{i+1}-F_i}{d_{i+1}-d_i}$$
 
 ## 6 控制理论(ControL)
 本节说明可变速部分中的参数如何定义发电机的转矩与RPM曲线。转矩与RPM曲线描述了发电机转矩与发电机RPM的关系。为了说明可变速部分的参数如何定义该曲线，这里我们将以NREL 5MW 涡轮机的发电机为例，其定义可参见Jonkman 等人(Jonkman, Jason M., S. Butterfield, Walt Musial, and G. Scott. “Definition of a 5-MW Reference Wind Turbine for Offshore System Development.” NREL, February 2009.)。
+
+### 6.1 简单的变桨控制
 ##### 最优控制曲线
 在这里我们假设涡轮机始终在最佳条件下工作，这意味着产生的功率由以下公式给出：
 
@@ -198,12 +215,14 @@ $$T_{o p t}=K_{o p t} \cdot \omega_g^2$$
 $$\quad K_{o p t}=\frac{1}{2} \cdot C_{P, \max } \rho A\left(\frac{r}{97\cdot T S R}\right)^3\left(\frac{2\pi}{60}\right)^2$$
 
 从文献当中可以获取$K_{\text {opt }}=0.02557N m \cdot R P M^{-2}$这给出了以下最佳扭矩曲线，即一种策略对应的曲线，在该策略中始终实现最佳功率系数：
+
 <br/>
 <img src="./pic/最优控制曲线.png" alt="最优控制曲线" width="400" height="300">
 <br/>
 
 ##### 区域 1
 对于低转速情况下，发电机不会产生任何扭矩。这个转速范围被称为区域 1，对NREL 5MW 而言，该范围是 0 到 670 RPM。在这一区域内，发电机的扭矩与RPM曲线将是平坦的，如下图所示：
+
 <br/>
 <img src="./pic/区域1.png" alt="区域1" width="400" height="300">
 <br/>
@@ -211,6 +230,7 @@ $$\quad K_{o p t}=\frac{1}{2} \cdot C_{P, \max } \rho A\left(\frac{r}{97\cdot T 
 
 ##### 区域 1.5
 在区域 1.5 中，曲线从 0 线性变化到最佳扭矩曲线。对于 NREL 5 MW 涡轮机，区域 1.5 的上限为 871 RPM，其对应的曲线如下：
+
 <br/>
 <img src="./pic/区域1.5.png" alt="区域1.5" width="400" height="300">
 <br/>
@@ -218,24 +238,31 @@ $$\quad K_{o p t}=\frac{1}{2} \cdot C_{P, \max } \rho A\left(\frac{r}{97\cdot T 
 
 ##### 区域 2
 在区域 2 中，曲线遵循最优转矩曲线，因此涡轮机在最大功率系数下运行。曲线将如下所示：
+
 <br/>
 <img src="./pic/区域2.png" alt="区域2" width="400" height="300">
 <br/>
-区域 2 的上限定义为区域 2.5 的下限，其将在下一部分进行计算。$K_opt$的值确定最佳曲线的系数由比例因子区域 2 参数给出，并定义为额定转矩与额定转速平方的比率的百分比。由于额定转速为 1173.7，额定转矩为 43093 Nm，我们此前发现:$k_{\text {opt }}=0.02557N m \cdot R P M^2$ ，这意味着比例因子区域 2 参数将为: $0.02557/ \frac{43093}{1173.7^2}=81.76\%$
+区域 2 的上限定义为区域 2.5 的下限，其将在下一部分进行计算。$K_opt$的值确定最佳曲线的系数由比例因子区域 2 参数给出，并定义为额定转矩与额定转速平方的比率的百分比。由于额定转速为 1173.7，额定转矩为 43093 Nm，我们此前发现:
+
+$k_opt=0.02557N m \cdot R P M^2$
+，这意味着比例因子区域 2 参数将为:$0.02557/ \frac{43093}{1173.7^2}=81.76\%$
 
 ##### 区域 2.5
 区域 2.5 是另一个线性区域。在 NREL 5MW 案例中，其上限对应 99%。由于这是到区域 3 的过渡点，此点产生的功率将等于额定功率。请注意，这里我们讨论的是机械功率，而不是电功率。两者之间的区别在于发电机效率。在 NREL 5MW 风机的情况下，额定电功率为 5MW，发电机效率为 94.4%，因此额定机械功率为 5.29661MW。在区域 2.5 的上限处产生的扭矩因此为 43528 Nm。注意，这是额定扭矩的 1%更高，因为我们在额定速度的 99%生产额定功率。
 下图中显示了区域 2.5 的上限为一个红点，额定扭矩为一条水平虚线。
+
 <br/>
 <img src="./pic/区域2.5.png" alt="区域2.5" width="400" height="300">
 <br/>
 
 为了找到区域 2.5 的下限，首先计算线性曲线的斜率，使其在对应于发电机滑差的转速下与 x 轴相交。在 NREL 5 MW 的情况下，发电机滑差为 10%，这意味着区域 2.5 的线性曲线将在比额定转速低 10%的转速处与 x 轴相交，即 1056.33 RPM。这在下图中通过红色虚线进行了说明：
+
 <br/>
 <img src="./pic/区域2.5.1.png" alt="区域2.5" width="400" height="300">
 <br/>
 
 区域 2.5 的下限（同时也是区域 2 的上限）被设定为红线与最佳扭矩曲线的交点，如下面的图所示：
+
 <br/>
 <img src="./pic/区域2.5.2.png" alt="区域2.5" width="400" height="300">
 <br/>
@@ -243,9 +270,16 @@ $$\quad K_{o p t}=\frac{1}{2} \cdot C_{P, \max } \rho A\left(\frac{r}{97\cdot T 
 区域 2.5 的上限由参数“区域 2.5 至 3 的转速过渡点”定义，作为额定速度的百分比。区域 2.5 的斜率基于上述解释的滑差参数计算。
 ##### 区域 3
 在区域 3 中，叶片开始调整桨距以保持恒定的功率输出。根据之前建立的关系，该区域的转矩定义为 转矩与转速的关系曲线如下所示：
+
 <br/>
 <img src="./pic/区域3.png" alt="区域2.5" width="400" height="300">
 <br/>
+
+### 6.2 Bladed接口控制器
+
+### 6.3 DTU-HAWC2接口控制器
+
+### 6.4 NREL-OpenFAST接口控制器
 
 ## 7 疲劳与极限载荷后处理(PostL)
 
